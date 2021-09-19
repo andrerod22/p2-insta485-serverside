@@ -33,10 +33,9 @@ CREATE TABLE following(
 CREATE TABLE comments(
   commentid INTEGER PRIMARY KEY AUTOINCREMENT,
   owner VARCHAR(20) NOT NULL,
-  postid INTEGER NOT NULL,
+  postid INTEGER,
   text VARCHAR(1024) NOT NULL,
   created DATETIME,
-
   FOREIGN KEY(postid) REFERENCES posts(postid)
   FOREIGN KEY(owner) REFERENCES users(username)
   ON DELETE CASCADE
@@ -46,9 +45,9 @@ CREATE TABLE comments(
 CREATE TABLE likes(
   likeid INTEGER PRIMARY KEY AUTOINCREMENT,
   owner VARCHAR(20) NOT NULL,
-  postid INTEGER NOT NULL,
+  postid INTEGER,
   created DATETIME,
-
+  FOREIGN KEY(postid) REFERENCES posts(postid)
   FOREIGN KEY(owner) REFERENCES users(username)
   ON DELETE CASCADE
 );

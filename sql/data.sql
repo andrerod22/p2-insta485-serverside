@@ -122,35 +122,35 @@ VALUES(
 INSERT INTO comments(owner, text)
 VALUES(
     'awdeorio',
-    '#chickensofinstagram',
+    '#chickensofinstagram'
 );
 INSERT INTO comments(owner, text)
 VALUES(
     'jflinn',
-    'I <3 chickens',
+    'I <3 chickens'
 );
 INSERT INTO comments(owner, text)
 VALUES(
     'michjc',
-    'Cute overload!',
+    'Cute overload!'
 );
 INSERT INTO comments(owner, text)
 VALUES(
     'awdeorio',
-    'Sick #crossword',
+    'Sick #crossword'
 );
 INSERT INTO comments(owner, text)
 VALUES(
     'jflinn',
-    'Walking the plank #chickensofinstagram',
+    'Walking the plank #chickensofinstagram'
 );
 INSERT INTO comments(owner, text)
 VALUES(
     'awdeorio',
-    'This was after trying to teach them to do a #crossword',
+    'This was after trying to teach them to do a #crossword'
 );
 INSERT INTO comments(owner, text)
 VALUES(
     'jag',
-    'Saw this on the diag yesterday!',
+    'Saw this on the diag yesterday!'
 );
