@@ -24,8 +24,11 @@ def account_redirect():
             abort(400, "Username or Password field was empty")
         if operation == 'login':
             connection = insta485.model.get_db()
-            sql =  "SELECT username FROM users WHERE username = %s AND password = %s", (username,password)
-            cur = connection.execute(sql)
+            params = (username, password)
+
+            #sql =  "SELECT username FROM users WHERE username = %s AND password = %s" % (username,password)
+            #check if user is in db:
+            cur = connection.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % params)
             user = cur.fetchone()
             if user is None:
                 flask.abort(403, "Invalid Username and Password Combination")
