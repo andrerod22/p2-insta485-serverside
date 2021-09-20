@@ -56,29 +56,35 @@ VALUES(
 );
 
 -- initial data for likes --
-INSERT INTO likes(owner)
+INSERT INTO likes(owner, postid)
 VALUES(
-    'awdeorio'
+    'awdeorio',
+    1
 );
-INSERT INTO likes(owner)
+INSERT INTO likes(owner, postid)
 VALUES(
-    'michjc'
+    'michjc',
+    1
 );
-INSERT INTO likes(owner)
+INSERT INTO likes(owner, postid)
 VALUES(
-    'jflinn'
+    'jflinn',
+    1
 );
-INSERT INTO likes(owner)
+INSERT INTO likes(owner, postid)
 VALUES(
-    'awdeorio'
+    'awdeorio',
+    2
 );
-INSERT INTO likes(owner)
+INSERT INTO likes(owner, postid)
 VALUES(
-    'michjc'
+    'michjc',
+    2
 );
-INSERT INTO likes(owner)
+INSERT INTO likes(owner, postid)
 VALUES(
-    'awdeorio'
+    'awdeorio',
+    3
 );
 
 --initial data for following --
