@@ -32,6 +32,7 @@ def account_redirect():
             user = cur.fetchone()
             if user is None:
                 flask.abort(403, "Invalid Username and Password Combination")
+            flask.session['username'] = username
             return flask.redirect("/", code=302)
 
 @insta485.app.route('/accounts/login', methods=["GET"])
