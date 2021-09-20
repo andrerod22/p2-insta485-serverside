@@ -17,7 +17,7 @@
         {% if session['username'] %}
         <a href="/explore/">explore</a>
         <a href="/u/{{ session['username'] }}/">{{ logname }}</a>
-        {% endif $}
+        {% endif %}
     </div>
     {% block content %}{% endblock %}
 </body>

@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="<FIXME_ACCOUNTS_URL_HERE>?target=<FIXME_INDEX_URL_HERE>" method="post" enctype="multipart/form-data">
-    <input type="text" name="username" required/>
-    <input type="password" name="password" required/>
+
+<form action="/accounts/?target=/>" method="post" enctype="multipart/form-data">
+    <input type="text" name="username" required placeholder="username" />
+    <input type="password" name="password" placeholder="Password" required/>
     <input type="submit" value="login"/>
     <input type="hidden" name="operation" value="login"/>
 </form>

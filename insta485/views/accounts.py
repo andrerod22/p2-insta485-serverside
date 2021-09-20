@@ -7,16 +7,16 @@ URLs include:
 /create/
 /edit/
 /password/
-/ (not allowed, should throw error 405, since only POST request is allowed)
+/ immediate redirection to where the user originally wanted to go. 
 """
 import flask
 import insta485
 
+@insta485.app.route('/accounts', methods=["POST"])
+def account_redirect():
+    target = flask.request.args.get('target')
+    return flask.redirect(target)
 
-@insta485.app.route('/login', methods=["GET","POST"])
+@insta485.app.route('/accounts/login', methods=["GET"])
 def show_login():
-    if flask.request.method == "POST":
-        #after they hit submit on login form
-        pass
-
     return flask.render_template("login.html")
