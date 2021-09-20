@@ -12,7 +12,7 @@ import insta485
 def show_index():
     """Display / route."""
     if 'username' not in flask.session:
-        return flask.redirect("/accounts/login/", code=302)
+        return flask.redirect(flask.url_for('show_login'), code=302)
 
     # Connect to database
     connection = insta485.model.get_db()
