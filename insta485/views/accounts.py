@@ -15,7 +15,11 @@ import insta485
 @insta485.app.route('/accounts', methods=["POST"])
 def account_redirect():
     target = flask.request.args.get('target')
-    return flask.redirect(target)
+    if target == '':
+        operation = flask.request.form['operation']
+        if operation == 'login':
+            #instantialize session variables. 
+            return flask.redirect("/", code=302)
 
 @insta485.app.route('/accounts/login', methods=["GET"])
 def show_login():
