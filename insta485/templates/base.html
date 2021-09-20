@@ -16,7 +16,7 @@
         <a href="/">insta485</a>
         {% if session['username'] %}
         <a href="/explore/">explore</a>
-        <a href="/u/{{ session['username'] }}/">{{ logname }}</a>
+        <a href="/u/{{ session['username'] }}/">{{ session['username'] }}</a>
         {% endif %}
     </div>
     {% block content %}{% endblock %}
