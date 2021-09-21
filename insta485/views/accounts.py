@@ -18,7 +18,8 @@ import datetime
 import pdb
 
 algorithm = 'sha512'
-salt = uuid.uuid4().hex
+salt = 'a45ffdcc71884853a2cba9e6bc55e812' # salt used from the spec **for easy testing.**
+# salt = uuid.uuid4().hex Maybe uncomment this line later, because salt is always generated randomly. 
 
 
 @insta485.app.route('/accounts/', methods=["POST"])
@@ -39,6 +40,7 @@ def account_redirect():
         password_db_string = "$".join([algorithm, salt, password_hash])
         connection = insta485.model.get_db()
         params = (username, password_db_string)
+        print(password_db_string)
         cur = connection.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % params)
         user = cur.fetchone()
         if user is None:
@@ -77,15 +79,21 @@ def account_redirect():
         if user is not None:
             flask.abort(409, "Username already taken")
         cur = connection.execute("INSERT INTO users(username,fullname,email,filename,password,created) VALUES('%s','%s','%s','%s','%s','%s')" % params)
+        flask.session['username'] = username
     if target == '':
-        return flask.redirect("/", code=302)
+        return flask.redirect("/")
     #TODO Other operations like account create, edit, etc. Refer to spec. 
+
 
 @insta485.app.route('/accounts/login/', methods=["GET"])
 def show_login():
-    if flask.session['username']: #If the user is already logged in, redirect back to index.
+    if 'username' in flask.session: #If the user is already logged in, redirect back to index.
         return flask.redirect("/")
     return flask.render_template("login.html")
+
+@insta485.app.route('/accounts/logout/', methods=["POST"])
+def logout():
+    return flask.redirect("/")
 
 @insta485.app.route('/accounts/create/', methods=["GET"])
 def show_create():

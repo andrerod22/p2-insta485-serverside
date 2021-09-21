@@ -26,5 +26,4 @@ def show_index():
     postData = cur.fetchall()
     context = {"posts": postData}
 
-    # return flask.render_template("index.html", **context)
     return flask.render_template("index.html", **context)
