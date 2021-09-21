@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/likes/?target=URL" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="operation" value="unlike"/>
+    <input type="hidden" name="postid" value="delete"/>
+    <input type="submit" name="unlike" value="unlike"/>
+</form>
+{% endblock %}

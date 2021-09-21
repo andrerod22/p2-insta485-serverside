@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="<FIXME_COMMENTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="operation" value="create"/>
+    <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+    <input type="text" name="text" required/>
+    <input type="submit" name="comment" value="comment"/>
+</form>
+{% endblock %}
