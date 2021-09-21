@@ -15,17 +15,15 @@ def show_index():
         return flask.redirect(flask.url_for('show_login'), code=200) #302
 
     # Connect to database
-    # connection = insta485.model.get_db()
+    currUser = flask.session['username']
+    connection = insta485.model.get_db() #username is a primary key. 
 
-    # Query database
-    # cur = connection.execute(
-    #     "SELECT username, fullname "
-    #     "FROM users"
-    # )
-    # users = cur.fetchall()
-
-    # Add database info to context
-    # context = {"users": users}
+    #Get post data from followers including yourself. And build json object dictionary.
+    #Might need datetime to order entries.
+    sql = "SELECT filename, owner FROM posts WHERE owner='%s' OR owner in (SELECT username2 FROM following WHERE username1='%s')" % (currUser, currUser)
+    cur = connection.execute(sql)
+    postData = cur.fetchall()
+    context = {"posts": postData}
 
     # return flask.render_template("index.html", **context)
-    return flask.render_template("index.html")
+    return flask.render_template("index.html", **context)
