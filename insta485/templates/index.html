@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+  {% for post in posts %}
+  <div class="post">
+    <div class="p_top">
+        <!-- <a href="/u/{{ post['owner'] }}/">
+            <img src="{{ post['owner_img_url'] }}" alt="" style="width: 50px;">
+        </a> -->
+        <a href="/u/{{ post.owner }}/">{{ post['owner'] }}</a>
+    </div>
+  </div>
+  {% endfor %}
 {% endblock %}
   <!-- <h1>Users</h1>
   {% for user in users %}
