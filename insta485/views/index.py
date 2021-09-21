@@ -6,13 +6,14 @@ URLs include:
 """
 import flask
 import insta485
+import arrow
 
 
 @insta485.app.route('/')
 def show_index():
     """Display / route."""
     if 'username' not in flask.session:
-        return flask.redirect(flask.url_for('show_login'), code=200) #302
+        return flask.redirect(flask.url_for('show_login')) #302
 
     # Connect to database
     currUser = flask.session['username']

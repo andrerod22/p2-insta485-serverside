@@ -15,21 +15,25 @@ import uuid
 import hashlib
 import pathlib
 import datetime
-@insta485.app.route('/accounts', methods=["POST"])
+import pdb
+
+algorithm = 'sha512'
+salt = uuid.uuid4().hex
+
+
+@insta485.app.route('/accounts/', methods=["POST"])
 def account_redirect():
     #Gets form data from login.html
     operation = flask.request.form['operation']
     target = flask.request.args.get('target')
-    algorithm = 'sha512'
-    salt = uuid.uuid4().hex
-    hash_obj = hashlib.new(algorithm)
 
-    if operation == 'login': 
+    if operation == 'login':
         username = flask.request.form['username']
         password = flask.request.form['password']
         if not username or not password:
             flask.abort(400, "Username or Password field was empty")
         password_salted = salt + password
+        hash_obj = hashlib.new(algorithm)
         hash_obj.update(password_salted.encode('utf-8'))
         password_hash = hash_obj.hexdigest()
         password_db_string = "$".join([algorithm, salt, password_hash])
@@ -54,13 +58,13 @@ def account_redirect():
         fullname = flask.request.form['fullname']
         username = flask.request.form['username']
         email = flask.request.form['email']
-        password = flask.request.form['password'] #password needs encryption
+        password = flask.request.form['password']
         time_stamp = datetime.datetime.utcnow()
         password_salted = salt + password
-        hash_obj.update(password_salted.encode('utf-8'))
-        password_hash = hash_obj.hexdigest()
+        hash_obj = hashlib.new(algorithm)
+        hash_obj.update(password_salted.encode('utf-8')) #turns salted password into bits
+        password_hash = hash_obj.hexdigest() 
         password_db_string = "$".join([algorithm, salt, password_hash])
-        #print(password_db_string)
         if not (username and password and fullname and email and uuid_basename):
             flask.abort(400, "One or more of the required fields are empty.")
         # Save to disk
@@ -68,7 +72,7 @@ def account_redirect():
         fileobj.save(path)
         params = (username, fullname, email, uuid_basename, password_db_string, time_stamp.strftime('%Y-%m-%d %H:%M:%S'))
         connection = insta485.model.get_db()
-        cur = connection.execute("SELECT * FROM users WHERE username = '%s'" % params)
+        cur = connection.execute("SELECT * FROM users WHERE username = '%s'" % username)
         user = cur.fetchone()
         if user is not None:
             flask.abort(409, "Username already taken")
@@ -77,10 +81,12 @@ def account_redirect():
         return flask.redirect("/", code=302)
     #TODO Other operations like account create, edit, etc. Refer to spec. 
 
-@insta485.app.route('/accounts/login', methods=["GET"])
+@insta485.app.route('/accounts/login/', methods=["GET"])
 def show_login():
+    if flask.session['username']: #If the user is already logged in, redirect back to index.
+        return flask.redirect("/")
     return flask.render_template("login.html")
 
-@insta485.app.route('/accounts/create', methods=["GET"])
+@insta485.app.route('/accounts/create/', methods=["GET"])
 def show_create():
     return flask.render_template("create.html")
