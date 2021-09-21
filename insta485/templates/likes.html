@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<form action="/likes/?target=URL" method="post" enctype="multipart/form-data">
+<!--/likes/?target=URL-->
+<form action="{{ url_for('likes', target='likes') }}" method="post" enctype="multipart/form-data">
   <input type="hidden" name="operation" value="like"/>
   <input type="hidden" name="postid" value="create"/>
   <input type="submit" name="like" value="like"/>
 </form>
+<!--dislike button-->
+<form action="{{ url_for('likes', target='likes') }}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="operation" value="like"/>
+  <input type="hidden" name="postid" value="create"/>
+  <input type="submit" name="like" value="like"/>
+</form>
+
 {% endblock %}

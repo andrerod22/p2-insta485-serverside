@@ -11,7 +11,6 @@ import insta485
 def likes():
     target = flask.request.args.get('target')
     operation = flask.request.form['operation']
-
     connection = insta485.model.get_db()
     if operation == 'like':
         # Query database
@@ -20,12 +19,12 @@ def likes():
             "FROM likes"
         )
 
-        users = cur.fetchall
+        users = cur.fetchall()
         owners = {"likes": users}
-        for owner_var in owners
-            if TODO is owner_var
-                flask.abort(403, "Trying to like a post that was already liked")
-        return flask.render_template("likes.html")
+        #for owner_var in owners:
+            #if TODO is owner_var
+                #flask.abort(403, "Trying to like a post that was already liked")
+        #return flask.render_template("likes.html")
     elif operation == 'unlike':
         # Query database
         cur = connection.execute(
@@ -35,7 +34,7 @@ def likes():
 
         users = cur.fetchall
         owners = {"likes": users}
-        for owner_var in owners
-            if TODO is owner_var
-                flask.abort(403, "Trying to like a post that was already liked")
+        #for owner_var in owners
+            #if TODO is owner_var
+                #flask.abort(403, "Trying to like a post that was already liked")
         return flask.render_template("likes.html")
