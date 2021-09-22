@@ -15,7 +15,6 @@ CREATE TABLE posts(
   filename VARCHAR(64) NOT NULL,
   owner VARCHAR(20) NOT NULL,
   created DATETIME,
-
   FOREIGN KEY(owner) REFERENCES users(username)
   ON DELETE CASCADE
 );
