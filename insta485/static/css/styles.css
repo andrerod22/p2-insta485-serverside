@@ -1,0 +1,69 @@
+.topBar{
+    display:inline;
+}
+.upperLeft{
+    display:flex;
+    position:absolute;
+    margin: 0px 7px 7px 0px;
+    padding: 0px 5px 5px 0px;
+    border: 6px 6px 6px 0px;
+	font-weight: bold;
+    text-align: left;
+}
+
+.upperRight{
+    display: flex;
+    position: absolute;
+	font-weight: bold;
+    left: 90%;
+    margin: 0px 0px 7px 7px;
+    padding: 0px 0px 5px 5px;
+    border: 6px 0px 6px 6px; 
+}
+
+.profileTopBar{
+    margin: 0px 0px 7px 7px;
+    padding: 0px 0px 5px 5px;
+    border: 6px 0px 6px 6px;
+}
+.profileTopBar img{
+    max-width: 50px;
+    max-height: 50px;
+    float: left;
+}
+
+.postImg img{
+    padding: 10px 0px 10px 0px;
+    width:100%
+}
+
+.postImg{
+    clear:both;
+}
+/*
+.profileBottomBar{
+    
+}
+*/
+.profilePost{
+    margin: 15px 0 15px 0;
+    width:90%;
+    float:center;
+    min-height:500px;
+    outline: rgb(194, 190, 190) thin solid;
+    display:block;
+}
+
+.userProfile{
+    display:inline;
+    position:relative;
+}
+
+.userProfile img{
+    max-width: 45%;
+    max-height: 45%;
+}
+
+a{
+    text-decoration: none;
+}
