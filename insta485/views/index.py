@@ -20,10 +20,19 @@ def show_index():
 
     #Get post data from followers including yourself. And build json object dictionary.
     #Might need datetime to order entries.
-    sql = "SELECT postid, filename, owner, created FROM posts WHERE owner='%s' OR owner in (SELECT username2 FROM following WHERE username1='%s')" % (currUser, currUser)
+    sql = "SELECT postid, filename, owner, created FROM posts WHERE owner='%s' OR owner in (SELECT username2 FROM following WHERE username1='%s') ORDER BY postid DESC" % (currUser, currUser)
     cur = connection.execute(sql)
     postData = cur.fetchall()
-    #breakpoint()
+    sql = "SELECT p.postid, c.commentid, c.owner, c.text, c.created FROM comments AS c INNER JOIN (SELECT * FROM posts WHERE owner='%s' OR owner in (SELECT username2 FROM following WHERE username1='%s')) AS p ON (p.postid = c.postid)" % (currUser, currUser)
+    cur = connection.execute(sql)
+    commentData = cur.fetchall()
+
+    for p in postData:
+        commentTuple = []
+        for c in commentData:
+            if p["postid"] == c["postid"]:
+                commentTuple.append(c)
+        p["comments"] = commentTuple
     context = {"posts": postData}
     return flask.render_template("index.html", **context)
 
