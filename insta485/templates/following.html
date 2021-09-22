@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for following_var in following %}
+        <div>
+            <!--icon-->
+            <img src="{{following_var['user_img_url']}}" alt="">
+            <!--username + link-->
+            <a href="/u/{{following_var['username']}}/">
+                {{following_var['username']}}
+            </a>
+            <!--status following/followed-->
+            {% if logname != following_var.username %}
+                {% if following_var.logname_follows_username %} 
+                    following
+                    <form action="{{ url_for('following', target='following') }}" method="post" enctype="multipart/form-data">
+                        <input type="submit" name="unfollow" value="unfollow"/>
+                        <input type="hidden" name="username" value="/u/{{following_var['username']}}"/>
+                        <input type="hidden" name="operation" value="unfollow"/>
+                    </form>
+                {% else %} 
+                    not following
+                    <form action="{{ url_for('following', target='following') }}" method="post" enctype="multipart/form-data">
+                        <input type="submit" name="follow" value="follow"/>
+                        <input type="hidden" name="username" value="/u/{{following_var['username']}}"/>
+                        <input type="hidden" name="operation" value="follow"/>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}

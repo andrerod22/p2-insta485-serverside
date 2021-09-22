@@ -28,14 +28,14 @@
           {% endfor %}
           <form action="{{ url_for('likes', target='likes') }}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="operation" value="like"/>
-            <input type="hidden" name="postid" value="create"/>
+            <input type="hidden" name="postid" value="/p/{{post.postid}}/"/>
             <input type="submit" name="like" value="like"/>
           </form>
           <br>
           <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
           <form action="{{ url_for('comments', target='comments') }}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="operation" value="create"/>
-            <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+            <input type="hidden" name="postid" value="/p/{{post.postid}}/"/>
             <input type="text" name="text" required/>
             <input type="submit" name="comment" value="comment"/>
           </form>
