@@ -146,45 +146,52 @@ VALUES(
 );
 
 -- initial data for comments --
-INSERT INTO comments(owner, text, created)
+INSERT INTO comments(owner, text, postid, created)
 VALUES(
     'awdeorio',
     '#chickensofinstagram',
+    3,
     '2017-06-20 15:47:02'
 );
-INSERT INTO comments(owner, text, created)
+INSERT INTO comments(owner, text, postid, created)
 VALUES(
     'jflinn',
     'I <3 chickens',
+    3,
     '2017-06-20 15:47:02'
 );
-INSERT INTO comments(owner, text, created)
+INSERT INTO comments(owner, text, postid, created)
 VALUES(
     'michjc',
     'Cute overload!',
+    3,
     '2017-06-20 15:47:02'
 );
-INSERT INTO comments(owner, text, created)
+INSERT INTO comments(owner, text, postid, created)
 VALUES(
     'awdeorio',
     'Sick #crossword',
+    2,
     '2017-06-20 15:47:02'
 );
-INSERT INTO comments(owner, text, created)
+INSERT INTO comments(owner, text, postid, created)
 VALUES(
     'jflinn',
     'Walking the plank #chickensofinstagram',
+    1,
     '2017-06-20 15:47:02'
 );
-INSERT INTO comments(owner, text, created)
+INSERT INTO comments(owner, text, postid, created)
 VALUES(
     'awdeorio',
     'This was after trying to teach them to do a #crossword',
+    1,
     '2017-06-20 15:47:02'
 );
-INSERT INTO comments(owner, text, created)
+INSERT INTO comments(owner, text, postid, created)
 VALUES(
     'jag',
     'Saw this on the diag yesterday!',
+    4,
     '2017-06-20 15:47:02'
 );
