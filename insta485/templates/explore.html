@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Discover People</h1>
+<div>
+    {% for explore in not_following %}
+        {{explore['user_img_url']}}
+        <a href="/u/{{explore['username']}}">
+            {{explore['username']}}
+        </a>
+        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="{{ url_for('update_follow', target='/explore/') }}" method="post" enctype="multipart/form-data">
+            <input type="submit" name="follow" value="follow"/>
+            <input type="hidden" name="username" value="{{explore['username']}}"/>
+            <input type="hidden" name="operation" value="follow"/>
+        </form>
+    {% endfor %}
+</div>
+{% endblock %}
