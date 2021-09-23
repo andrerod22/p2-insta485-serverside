@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!--header-->
+<!--<h1>Followers</h1>-->
+<!--for loop for each followed/following user-->
+{% for follower_var in followers %}
+    <div>
+        <!--icon-->
+        <img src="{{follower_var['user_img_url']}}" alt="">
+        <!--username + link-->
+        <a href="/u/{{follower_var['username']}}/">
+            {{follower_var['username']}}
+        </a>
+        <!--status following/followed-->
+        {% if logname != follower_var.username %}
+            {% if follower_var.logname_follows_username %} following
+                <!--Unfollow Button-->
+                <form action="{{ url_for('update_follow', target='/followers/') }}" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value="{{follower_var['username']}}"/>
+                    <input type="hidden" name="operation" value="unfollow"/>
+                </form>
+            {% else %} not following
+                <!--Follow Button-->
+                <form action="{{ url_for('update_follow', target='/followers/') }}" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="{{follower_var['username']}}"/>
+                    <input type="hidden" name="operation" value="follow"/>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}
