@@ -34,17 +34,16 @@
               </form>
             {% endif %}
           {% endfor %}
-          <!--Loop through all likes (optimize if possible)-->
-          {% for like in post['likes'] %}
-            <!--if a like belonging to owner is found:-->
-            {% if like.owner == session.username %}
+
+          <!--if a like belonging to owner is found:-->
+          {% if post['liked'] %}
             <!--Unlike Button-->
             <form action="{{ url_for('update_likes', target='/') }}" method="post" enctype="multipart/form-data">
               <input type="hidden" name="operation" value="unlike"/>
               <input type="hidden" name="postid" value="{{ post['postid'] }}"/>
               <input type="submit" name="unlike" value="unlike"/>
             </form>
-            {% else %}
+          {% else %}
             <!--Like button-->
             <form action="{{ url_for('update_likes', target='/') }}" method="post" enctype="multipart/form-data">
               <input type="hidden" name="operation" value="like"/>
@@ -52,8 +51,8 @@
               <input type="submit" name="like" value="like"/>
             </form>
             <br>
-            {% endif %}
-          {% endfor %}
+          {% endif %}
+
           <!-- COMMENT BUTTON -->
           <form action="{{ url_for('update_user_comment', target='/') }}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="operation" value="create"/>

@@ -5,3 +5,4 @@ from insta485.views.accounts import show_login
 from insta485.views.accounts import account_redirect
 from insta485.views.accounts import logout
 from insta485.views.comments import update_user_comment
+from insta485.views.likes import update_likes

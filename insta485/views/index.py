@@ -38,15 +38,24 @@ def show_index():
     for p in postData:
         commentTuple = []
         likes = 0
+        liked = False
         for c in commentData:
             if p["postid"] == c["postid"]:
                 commentTuple.append(c)
         for l in likeData:
             if p["postid"] == l["postid"]:
+                if(currUser == l["owner"]):
+                    liked = True
                 likes += 1
         p["comments"] = commentTuple
         p["likes"] = likes
+        p["liked"] = liked
+
+        #add a bool to tell if the user liked a post p. 
+    # breakpoint()    
+        
     context = {"posts": postData}
+    
     return flask.render_template("index.html", **context)
 
 @insta485.app.route('/uploads/<path:filename>', methods=["GET"])
