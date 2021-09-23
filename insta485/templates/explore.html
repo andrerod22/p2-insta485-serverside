@@ -8,7 +8,7 @@
         <a href="/u/{{explore['username']}}">
             {{explore['username']}}
         </a>
-        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <!--Follow Button-->
         <form action="{{ url_for('update_follow', target='/explore/') }}" method="post" enctype="multipart/form-data">
             <input type="submit" name="follow" value="follow"/>
             <input type="hidden" name="username" value="{{explore['username']}}"/>
