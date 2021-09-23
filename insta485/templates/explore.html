@@ -5,7 +5,7 @@
 <div>
     {% for explore in not_following %}
         {{explore['user_img_url']}}
-        <a href="/u/{{explore['username']}}">
+        <a href="/{{explore['username']}}/">
             {{explore['username']}}
         </a>
         <!--Follow Button-->
