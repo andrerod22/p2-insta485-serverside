@@ -25,9 +25,9 @@ salt = 'a45ffdcc71884853a2cba9e6bc55e812' # salt used from the spec **for easy t
 @insta485.app.route('/accounts/', methods=["POST"])
 def account_redirect():
     #Gets form data from login.html
+    # flask.session.clear()
     operation = flask.request.form['operation']
-    target = flask.request.args.get('target')
-
+    URL = flask.request.args.get('target')
     if operation == 'login':
         username = flask.request.form['username']
         password = flask.request.form['password']
@@ -80,8 +80,8 @@ def account_redirect():
             flask.abort(409, "Username already taken")
         cur = connection.execute("INSERT INTO users(username,fullname,email,filename,password,created) VALUES('%s','%s','%s','%s','%s','%s')" % params)
         flask.session['username'] = username
-    if target == '':
-        return flask.redirect("/")
+
+    return flask.redirect(URL)
     #TODO Other operations like account create, edit, etc. Refer to spec. 
 
 
