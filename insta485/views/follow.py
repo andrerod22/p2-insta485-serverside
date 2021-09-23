@@ -6,7 +6,7 @@ import flask
 import insta485
 
 @insta485.app.route('/explore/', methods=["POST"])
-def update_follow(followUser):
+def update_follow():
     currUser = flask.session['username']
     target = flask.request.args.get('target')
     operation = flask.request.form['operation']
