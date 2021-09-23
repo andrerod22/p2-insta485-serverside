@@ -10,6 +10,7 @@ URLs include:
 / immediate redirection to where the user originally wanted to go. 
 """
 import flask
+from flask.helpers import url_for
 import insta485
 import uuid
 import hashlib
@@ -93,7 +94,8 @@ def show_login():
 
 @insta485.app.route('/accounts/logout/', methods=["POST"])
 def logout():
-    return flask.redirect("/")
+    flask.session.clear()
+    return flask.redirect(url_for('show_login'))
 
 @insta485.app.route('/accounts/create/', methods=["GET"])
 def show_create():
