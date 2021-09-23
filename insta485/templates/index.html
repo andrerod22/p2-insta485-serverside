@@ -5,7 +5,7 @@
   &nbsp;&nbsp;&nbsp;
   <div class="profilePost">
         <div class="profileTopBar">
-            <a href="/u/{{ post.owner }}/">
+            <a href="{{ url_for('show_user', user_slug = session.username ) }}">
                 <!-- <img src="{{post.owner_img_url}}" alt=DenPic.jpg> -->
                 <span style="font-weight:bold">{{post['owner']}} </span> 
             </a>
