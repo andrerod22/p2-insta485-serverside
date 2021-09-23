@@ -10,7 +10,7 @@
                 <span style="font-weight:bold">{{post['owner']}} </span> 
             </a>
             <a href="/p/{{post.postid}}/">
-              <p style="float:right">{{post.created}}</p>
+              <p style="float:right">{{post['created']}}</p>
             </a>
         </div>
         <div class="postImg">
@@ -29,17 +29,31 @@
               <!-- DELETE COMMENT BUTTON -->
               <form action="{{ url_for('update_user_comment', target='/') }}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="operation" value="delete"/>
-                <input type="hidden" name="commentid" value="{{ comment.commentid }}"/>
+                <input type="hidden" name="commentid" value="<FIXME_COMMENT_ID_HERE>"/>
                 <input type="submit" name="uncomment" value="delete"/>
               </form>
             {% endif %}
           {% endfor %}
-          <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="operation" value="like"/>
-            <input type="hidden" name="postid" value="{{ post['postid'] }}"/>
-            <input type="submit" name="like" value="like"/>
-          </form>
-          <br>
+          <!--Loop through all likes (optimize if possible)-->
+          {% for like in post['likes'] %}
+            <!--if a like belonging to owner is found:-->
+            {% if like.owner == session.username %}
+            <!--Unlike Button-->
+            <form action="{{ url_for('update_likes', target='/') }}" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="operation" value="unlike"/>
+              <input type="hidden" name="postid" value="{{ post['postid'] }}"/>
+              <input type="submit" name="unlike" value="unlike"/>
+            </form>
+            {% else %}
+            <!--Like button-->
+            <form action="{{ url_for('update_likes', target='/') }}" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="operation" value="like"/>
+              <input type="hidden" name="postid" value="{{ post['postid'] }}"/>
+              <input type="submit" name="like" value="like"/>
+            </form>
+            <br>
+            {% endif %}
+          {% endfor %}
           <!-- COMMENT BUTTON -->
           <form action="{{ url_for('update_user_comment', target='/') }}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="operation" value="create"/>
