@@ -25,6 +25,12 @@
           {% endif %}
           {% for comment in post['comments'] %}
           <p><a href="/u/{{comment.owner}}/"><span style="font-weight:bold">{{ comment.owner }}&nbsp;</span></a> {{ comment.text }}</p>
+          <!-- DELETE COMMENT BUTTON -->
+          <form action="{{ url_for('update_user_comment', target='/') }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="delete"/>
+            <input type="hidden" name="commentid" value="<FIXME_COMMENT_ID_HERE>"/>
+            <input type="submit" name="uncomment" value="delete"/>
+          </form>
           {% endfor %}
           <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
             <input type="hidden" name="operation" value="like"/>
@@ -32,7 +38,7 @@
             <input type="submit" name="like" value="like"/>
           </form>
           <br>
-          <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+          <!-- COMMENT BUTTON -->
           <form action="{{ url_for('update_user_comment', target='/') }}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="operation" value="create"/>
             <input type="hidden" name="postid" value="{{ post['postid'] }}"/>

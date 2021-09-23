@@ -25,10 +25,18 @@ def update_user_comment():
 
     #Delete Comment
     elif operation == 'delete':
+        commentid = flask.request.form['commentid']
+        sql = "SELECT owner FROM comments WHERE postid='%s' AND commentid='%i'" % (postid, commentid)
+        cur = connection.execute(sql)
+        commentData = cur.fetchall()
+        if currUser == commentData:
+            flask.abort(403,"Can't delete other user's comment")
+        sql = "DELETE FROM comments WHERE postid='%s' AND commentid='%i' AND owner='%s'" % (postid, commentid, currUser)
+        cur = connection.execute(sql)
         #make sure user doesn't delete someone else's comment
         #flask.abort(403,"Can't delete other user's comment")
         #sql = "DELETE "
-        print("deleting...")
+        #print("deleting...")
 
 
     #return updated json object to the page comment was inserted on!
