@@ -29,7 +29,7 @@
               <!-- DELETE COMMENT BUTTON -->
               <form action="{{ url_for('update_user_comment', target='/') }}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="operation" value="delete"/>
-                <input type="hidden" name="commentid" value="<FIXME_COMMENT_ID_HERE>"/>
+                <input type="hidden" name="commentid" value="{{ comment.commentid }}"/>
                 <input type="submit" name="uncomment" value="delete"/>
               </form>
             {% endif %}

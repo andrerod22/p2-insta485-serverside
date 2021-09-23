@@ -10,13 +10,13 @@ import datetime
 def update_user_comment():
     #comments: count comments in post associated w/ postid
     operation = flask.request.form['operation']
-    postid = flask.request.form['postid']
     currUser = flask.session['username'] #owner
     URL = flask.request.args.get('target')
     connection = insta485.model.get_db() #username is a primary key. 
     #Save the URL from the page we are on, so we can redirect later:
     #Insert Comment
     if operation == 'create':
+        postid = flask.request.form['postid']
         text = flask.request.form['text']
         time_stamp = datetime.datetime.utcnow()
         time_stamp = time_stamp.strftime('%Y-%m-%d %H:%M:%S')
@@ -26,12 +26,12 @@ def update_user_comment():
     #Delete Comment
     elif operation == 'delete':
         commentid = flask.request.form['commentid']
-        sql = "SELECT owner FROM comments WHERE postid='%s' AND commentid='%i'" % (postid, commentid)
+        sql = "SELECT owner FROM comments WHERE commentid='%s'" % (commentid)
         cur = connection.execute(sql)
-        commentData = cur.fetchall()
-        if currUser == commentData:
+        commentOwner = cur.fetchone()['owner']
+        if currUser != commentOwner:
             flask.abort(403,"Can't delete other user's comment")
-        sql = "DELETE FROM comments WHERE postid='%s' AND commentid='%i' AND owner='%s'" % (postid, commentid, currUser)
+        sql = "DELETE FROM comments WHERE commentid='%s' AND owner='%s'" % (commentid, currUser)
         cur = connection.execute(sql)
         #make sure user doesn't delete someone else's comment
         #flask.abort(403,"Can't delete other user's comment")
