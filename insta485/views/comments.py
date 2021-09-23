@@ -28,7 +28,10 @@ def update_user_comment():
         commentid = flask.request.form['commentid']
         sql = "SELECT owner FROM comments WHERE commentid='%s'" % (commentid)
         cur = connection.execute(sql)
-        commentOwner = cur.fetchone()['owner']
+        commentOwner = cur.fetchone()
+        # breakpoint() # ERROR HERE =================================================================================================================================
+        commentOwner = commentOwner['owner']
+
         if currUser != commentOwner:
             flask.abort(403,"Can't delete other user's comment")
         sql = "DELETE FROM comments WHERE commentid='%s' AND owner='%s'" % (commentid, currUser)
