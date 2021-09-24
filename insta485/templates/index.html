@@ -24,7 +24,7 @@
           <p>{{post['likes']}} likes</p>
           {% endif %}
           {% for comment in post['comments'] %}
-          <p><a href="{{ url_for('show_user', user_slug = session.username ) }}"><span style="font-weight:bold">{{ comment.owner }}&nbsp;</span></a> {{ comment.text }}</p>
+          <p><a href="{{ url_for('show_user', user_slug = comment.owner ) }}"><span style="font-weight:bold">{{ comment.owner }}&nbsp;</span></a> {{ comment.text }}</p>
             {% if comment.owner == session.username %}
               <!-- DELETE COMMENT BUTTON -->
               <form action="{{ url_for('update_user_comment', target='/') }}" method="post" enctype="multipart/form-data">
