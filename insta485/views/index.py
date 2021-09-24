@@ -35,7 +35,11 @@ def show_index():
     sql = "SELECT l.postid, l.likeid, l.owner, l.created FROM likes AS l INNER JOIN (SELECT * FROM posts WHERE owner='%s' OR owner in (SELECT username2 FROM following WHERE username1='%s')) AS p ON (p.postid = l.postid)" % (currUser,currUser)
     cur = connection.execute(sql)
     likeData = cur.fetchall()
+    sql = "SELECT u.filename, u.username FROM users AS u INNER JOIN (SELECT * FROM posts WHERE owner='%s' OR owner in (SELECT username2 FROM following WHERE username1='%s')) AS p ON (p.owner = u.username)" % (currUser,currUser)
+    cur = connection.execute(sql)
+    userPhotos = cur.fetchall()
     for p in postData:
+        userPhoto = None
         commentTuple = []
         likes = 0
         liked = False
@@ -47,14 +51,16 @@ def show_index():
                 if(currUser == l["owner"]):
                     liked = True
                 likes += 1
+        for u in userPhotos:
+            if p["owner"] == u["username"]:
+                userPhoto = u["filename"]
+
         p["comments"] = commentTuple
         p["likes"] = likes
         p["liked"] = liked
-
+        p["owner_img_url"] = userPhoto
         #add a bool to tell if the user liked a post p. 
-    #breakpoint()    
     context = {"posts": postData}
-    
     return flask.render_template("index.html", **context)
 
 @insta485.app.route('/uploads/<path:filename>', methods=["GET"])
