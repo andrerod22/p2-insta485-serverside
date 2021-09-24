@@ -22,7 +22,7 @@ def follow_redirect():
             flask.abort(409, "User cannot follow someone they already follow")
         time_stamp = datetime.datetime.utcnow()
         time_stamp = time_stamp.strftime('%Y-%m-%d %H:%M:%S')
-        sql = "INSERT INTO following (username1, username2, created) VALUES '%s', '%s', '%s'" % (currUser, follow_tar, time_stamp)
+        sql = "INSERT INTO following (username1, username2, created) VALUES ('%s', '%s', '%s')" % (currUser, follow_tar, time_stamp)
         cur = connection.execute(sql)
     else:
         if followData:
@@ -30,6 +30,8 @@ def follow_redirect():
             cur = connection.execute(sql)
         else:
             flask.abort(409, "User cannot unfollow someone they do not follow")
+    
+    return flask.redirect(target)
         
 
                     
