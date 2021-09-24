@@ -4,9 +4,10 @@ Insta485 logout
 from os import abort
 import flask
 import insta485
+import datetime
 
-@insta485.app.route('/explore/', methods=["POST"])
-def update_follow():
+@insta485.app.route('/following/', methods=["POST"])
+def follow_redirect():
     currUser = flask.session['username']
     target = flask.request.args.get('target')
     operation = flask.request.form['operation']
@@ -16,7 +17,7 @@ def update_follow():
     cur = connection.execute(sql)
     followData = cur.fetchall()
 
-    if operation == follow:
+    if operation == 'follow':
         if followData:
             flask.abort(409, "User cannot follow someone they already follow")
         time_stamp = datetime.datetime.utcnow()

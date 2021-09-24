@@ -6,10 +6,10 @@
   <div class="profilePost">
         <div class="profileTopBar">
             <a href="{{ url_for('show_user', user_slug = session.username ) }}">
-                <!-- <img src="{{post.owner_img_url}}" alt=DenPic.jpg> -->
+                <img src="{{ url_for('serve_img', filename=post.owner_img_url ) }}" alt=postOwnerPic.jpg style="width:50px;">
                 <span style="font-weight:bold">{{post['owner']}} </span> 
             </a>
-            <a href="/p/{{post.postid}}/">
+            <a href="{{ url_for('show_post', postid_url_slug = post['postid']) }}">
               <p style="float:right">{{post['created']}}</p>
             </a>
         </div>
