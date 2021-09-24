@@ -3,21 +3,37 @@ import insta485
 
 @insta485.app.route('/users/<user_slug>/', methods=["GET"])
 def show_user(user_slug):
-    #currUser = flask.session['username']
-    sql = "SELECT * FROM users WHERE username='%s'" % (user_slug)
+    currUser = flask.session['username']
     connection = insta485.model.get_db()
+    #Check if user_slug is in the database
+    sql = "SELECT username FROM users"
+    cur = connection.execute(sql)
+    checkUser = cur.fetchall()
+    is_in_db = False
+    for ind_user in checkUser:
+        if ind_user == user_slug:
+            is_in_db = True
+    if is_in_db is False
+        flask.abort(404, "User_slug was not found in DB")
+    #retrieve info for user.html
+    sql = "SELECT * FROM users WHERE username='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData = cur.fetchall() # LIST, should be
     sql = "SELECT postid FROM posts WHERE owner='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData[0]["numPosts"] = len(cur.fetchall())
+    sql = "SELECT filename FROM posts WHERE owner='%s'" % (user_slug)
+    cur = connection.execute(sql)
+    userData[1]['post_img'] = cur.fetchall()
     sql = "SELECT * FROM following WHERE username1='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData[0]['numFollowing'] = len(cur.fetchall())
+    sql = "SELECT username2 FROM following WHERE username1='%s' AND username2='%s'" % (currUser, user_slug)
+    cur = connection.execute(sql)
+    userData[0]['relation'] = cur.fetchall()
     sql = "SELECT * FROM following WHERE username2='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData[0]['numFollowers'] = len(cur.fetchall())
-    #ssql = "SELECT fullname FROM users WHERE username='%s'" % (currUser)
     #cur = connection.execute(sql)
     #userData['fullname'] = cur.fetchall()
     context = {"UserData": userData} 

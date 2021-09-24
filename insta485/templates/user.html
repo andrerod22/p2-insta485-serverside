@@ -4,11 +4,32 @@
 <h1>
     {{UserData[0].username}}
 </h1>
-{% if session['username'] %}
-    <p>Edit profile</p>
+{% if session['username'] == UserData[0].username)%}
+    <a href="{{ url_for('TODO', target='/accounts/edit/') }}">
+        <p>Edit profile</p>
+    </a>
     <form action="{{ url_for('logout') }}" method="post" enctype="multipart/form-data">
         <input type="submit" name="logout" value="Logout"/>
     </form>
+<!-- if current session user != user_slug-->
+{% else %}
+    {% if UserData[0].relation %}
+        <p>following</p>
+        <!--Follow Button-->
+        <form action="{{ url_for('follow_redirect', target='/user/UserData[0].username') }}" method="post" enctype="multipart/form-data">
+            <input type="submit" name="follow" value="follow"/>
+            <input type="hidden" name="username" value="{{UserData[0].username}}"/>
+            <input type="hidden" name="operation" value="follow"/>
+        </form>
+    {% else %}
+        <p>not following</p>
+        <!--Unfollow Button-->
+        <form action="{{ url_for('follow_redirect', target='/user/UserData[0].username') }}" method="post" enctype="multipart/form-data">
+            <input type="submit" name="unfollow" value="unfollow"/>
+            <input type="hidden" name="username" value="{{UserData[0].username}}"/>
+            <input type="hidden" name="operation" value="unfollow"/>
+        </form>
+    {% endif %}
 {% endif %}
 <p>
     {% if UserData[0].numPosts == 1 %}
@@ -17,14 +38,14 @@
         {{UserData[0].numPosts}} posts
     {% endif %}
 
-    <a href="url_for('show_following', user_url_slug=UserData[0].username)">
+    <a href="url_for('show_following', user_url_slug={{UserData[0].username}})">
         {% if UserData[0].numFollowers == 1 %}
                 {{UserData[0].numFollowers}} follower
         {% else %}
             {{UserData[0].numFollowers}} followers
         {% endif %}
     </a>
-    <a href="url_for('show_followers', user_url_slug=UserData[0].username)">
+    <a href="url_for('show_followers', user_url_slug={{UserData[0].username}})">
         {{UserData[0].numFollowing}} following
     </a>
 </p>
@@ -35,4 +56,12 @@
     <input type="submit" name="create_post" value="upload new post"/>
     <input type="hidden" name="operation" value="create"/>
 </form>
+{% for post_img in UserData[1].post_img %}
+    <a href="url_for('TODO')}})">
+        <div class="postImg">
+            <img src="{{ url_for('serve_img', filename=post_img ) }}" alt=Crossword.jpg>
+        </div>
+    </a>
+{% endfor %}
+
 {% endblock %}
