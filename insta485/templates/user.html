@@ -16,12 +16,17 @@
     {% else %}
         {{UserData[0].numPosts}} posts
     {% endif %}
-    {% if UserData[0].numFollowers == 1 %}
-        {{UserData[0].numFollowers}} <a href="{{ url_for('show_followers', user_url_slug=UserData[0].username )}}">follower</a>
-    {% else %}
-        {{UserData[0].numFollowers}} <a href="{{ url_for('show_followers', user_url_slug=UserData[0].username )}}">followers</a>
-    {% endif %}
-    {{UserData[0].numFollowing}} <a href="{{ url_for('show_following', user_url_slug=UserData[0].username )}}">following</a>
+
+    <a href="url_for('show_following', user_url_slug=UserData[0].username)">
+        {% if UserData[0].numFollowers == 1 %}
+                {{UserData[0].numFollowers}} follower
+        {% else %}
+            {{UserData[0].numFollowers}} followers
+        {% endif %}
+    </a>
+    <a href="url_for('show_followers', user_url_slug=UserData[0].username)">
+        {{UserData[0].numFollowing}} following
+    </a>
 </p>
 <p>{{UserData[0].fullname}}</p>
 <!-- Upload new post -->
