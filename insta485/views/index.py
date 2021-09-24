@@ -52,8 +52,7 @@ def show_index():
         p["liked"] = liked
 
         #add a bool to tell if the user liked a post p. 
-    # breakpoint()    
-        
+    #breakpoint()    
     context = {"posts": postData}
     
     return flask.render_template("index.html", **context)

@@ -4,8 +4,9 @@ Insta485 logout
 from os import abort
 import flask
 import insta485
+import datetime
 
-@insta485.app.route('', methods=["POST"])
+@insta485.app.route('/following/', methods=["POST"])
 def follow_redirect():
     currUser = flask.session['username']
     target = flask.request.args.get('target')
