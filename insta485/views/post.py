@@ -1,7 +1,6 @@
 import flask
 import insta485
 import arrow
-
 @insta485.app.route("/posts/<postid_url_slug>/", methods=["GET"])
 def show_post(postid_url_slug):
     currUser = flask.session['username']
