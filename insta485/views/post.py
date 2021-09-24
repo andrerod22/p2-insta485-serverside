@@ -2,9 +2,8 @@ import flask
 import insta485
 import arrow
 import pdb
-@insta485.app.route("/posts/<postid_url_slug>", methods=["GET"])
+@insta485.app.route("/posts/<postid_url_slug>/", methods=["GET"])
 def show_post(postid_url_slug):
-    breakpoint()
     currUser = flask.session['username']
     connection = insta485.model.get_db() #username is a primary key. 
     sql = "SELECT postid, filename, owner, created FROM posts (WHERE owner='%s' OR owner in (SELECT username2 FROM following WHERE username1='%s') AND postid = postid_url_slug) ORDER BY postid DESC" % (currUser, currUser)
