@@ -5,7 +5,7 @@
     {{UserData[0].username}}
 </h1>
 {% if session['username'] == UserData[0].username)%}
-    <a href="{{ url_for('TODO', target='/accounts/edit/') }}">
+    <a href="{{ url_for('show_edit', target='/accounts/edit/') }}">
         <p>Edit profile</p>
     </a>
     <form action="{{ url_for('logout') }}" method="post" enctype="multipart/form-data">
