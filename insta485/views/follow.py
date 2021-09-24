@@ -37,3 +37,8 @@ def follow_redirect():
 def show_following(user_url_slug):
     
     return flask.render_template("following.html")
+
+@insta485.app.route('/users/<user_url_slug>/followers/', methods=["GET"])
+def show_followers(user_url_slug):
+    
+    return flask.render_template("followers.html")
