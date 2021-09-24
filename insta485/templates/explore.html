@@ -4,7 +4,7 @@
 <h1>Discover People</h1>
 <div>
     {% for explore in not_following %}
-        {{explore['user_img_url']}}
+        <img src="{{ url_for('serve_img', filename=explore.filename ) }}" style="width: 50px;">
         <a href="/{{explore['username']}}/">
             {{explore['username']}}
         </a>
