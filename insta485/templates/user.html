@@ -1,7 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="{{ url_for('logout') }}" method="post" enctype="multipart/form-data">
-    <input type="submit" name="logout" value="Logout"/>
+<h1>
+    {{UserData[0].username}}
+</h1>
+{% if session['username'] %}
+    <p>Edit profile</p>
+    <form action="{{ url_for('logout') }}" method="post" enctype="multipart/form-data">
+        <input type="submit" name="logout" value="Logout"/>
+    </form>
+{% endif %}
+<p>
+    {% if UserData[0].numPosts == 1 %}
+        {{UserData[0].numPosts}} post
+    {% else %}
+        {{UserData[0].numPosts}} posts
+    {% endif %}
+    {% if UserData[0].numFollowers == 1 %}
+        {{UserData[0].numFollowers}} follower
+    {% else %}
+        {{UserData[0].numFollowers}} followers
+    {% endif %}
+    {{UserData[0].numFollowing}} following
+</p>
+<p>{{UserData[0].fullname}}</p>
+<!-- Upload new post -->
+<form action="<FIXME_POSTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*" required/>
+    <input type="submit" name="create_post" value="upload new post"/>
+    <input type="hidden" name="operation" value="create"/>
 </form>
 {% endblock %}

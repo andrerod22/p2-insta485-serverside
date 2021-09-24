@@ -33,5 +33,6 @@ def follow_redirect():
     
     return flask.redirect(target)
         
-
-                    
+@insta485.app.route('/following/', methods=["POST"])
+def something():
+    print("something")
