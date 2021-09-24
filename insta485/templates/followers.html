@@ -16,14 +16,14 @@
         {% if logname != follower_var.username %}
             {% if follower_var.logname_follows_username %} following
                 <!--Unfollow Button-->
-                <form action="{{ url_for('update_follow', target='/followers/') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ url_for('follow_redirect', target='/followers/') }}" method="post" enctype="multipart/form-data">
                     <input type="submit" name="unfollow" value="unfollow"/>
                     <input type="hidden" name="username" value="{{follower_var['username']}}"/>
                     <input type="hidden" name="operation" value="unfollow"/>
                 </form>
             {% else %} not following
                 <!--Follow Button-->
-                <form action="{{ url_for('update_follow', target='/followers/') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ url_for('follow_redirect', target='/followers/') }}" method="post" enctype="multipart/form-data">
                     <input type="submit" name="follow" value="follow"/>
                     <input type="hidden" name="username" value="{{follower_var['username']}}"/>
                     <input type="hidden" name="operation" value="follow"/>

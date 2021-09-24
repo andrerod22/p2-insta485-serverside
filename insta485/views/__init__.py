@@ -6,4 +6,6 @@ from insta485.views.accounts import account_redirect
 from insta485.views.accounts import logout
 from insta485.views.comments import update_user_comment
 from insta485.views.likes import update_likes
+from insta485.views.explore import show_explore
 from insta485.views.users import show_user
+from insta485.views.follow import follow_redirect
