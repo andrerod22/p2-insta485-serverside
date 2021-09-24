@@ -9,3 +9,4 @@ from insta485.views.likes import update_likes
 from insta485.views.explore import show_explore
 from insta485.views.users import show_user
 from insta485.views.follow import follow_redirect
+from insta485.views.post import show_post

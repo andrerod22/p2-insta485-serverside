@@ -9,7 +9,11 @@
                 <!-- <img src="{{post.owner_img_url}}" alt=DenPic.jpg> -->
                 <span style="font-weight:bold">{{post['owner']}} </span> 
             </a>
+<<<<<<< HEAD
             <a href="/p/{{ url_for('show_post', postid_user_slug = post['postid']) }}/">
+=======
+            <a href="{{ url_for('show_post', postid_url_slug = post.postid) }}/">
+>>>>>>> c4933976b97fda19dc253e6260629d19feb06686
               <p style="float:right">{{post['created']}}</p>
             </a>
         </div>
