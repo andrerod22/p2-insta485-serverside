@@ -16,6 +16,9 @@ def show_post(postid_url_slug):
     sql = "SELECT l.postid, l.likeid, l.owner, l.created FROM likes AS l INNER JOIN (SELECT * FROM posts WHERE postid='%s') AS p ON (p.postid = l.postid)" % postid_url_slug
     cur = connection.execute(sql)
     likeData = cur.fetchall()
+    sql = "SELECT u.filename, u.username FROM users AS u INNER JOIN (SELECT * FROM posts WHERE postid='%s') AS p ON (p.owner = u.username)" % postid_url_slug
+    cur = connection.execute(sql)
+    userPhotos = cur.fetchall()
     for p in postData:
         commentTuple = []
         likes = 0
@@ -28,6 +31,11 @@ def show_post(postid_url_slug):
                 if(currUser == l["owner"]):
                     liked = True
                 likes += 1
+        for u in userPhotos:
+            if p["owner"] == u["username"]:
+                userPhoto = u["filename"]
+
+        p["owner_img_url"] = userPhoto
         p["comments"] = commentTuple
         p["likes"] = likes
         p["liked"] = liked
