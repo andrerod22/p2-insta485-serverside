@@ -82,7 +82,10 @@ def account_redirect():
         cur = connection.execute("INSERT INTO users(username,fullname,email,filename,password,created) VALUES('%s','%s','%s','%s','%s','%s')" % params)
         flask.session['username'] = username
     elif operation == 'delete':
-        print("deleting..")
+        breakpoint()
+        delete_user = flask.session['username']
+        connection = insta485.model.get_db()
+        cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
     return flask.redirect(URL)
     #TODO Other operations like account create, edit, etc. Refer to spec. 
 
@@ -102,37 +105,8 @@ def logout():
 def show_create():
     return flask.render_template("create.html")
 
-def salt_pass(password):
-    password_salted = salt + password
-    hash_obj = hashlib.new(algorithm)
-    hash_obj.update(password_salted.encode('utf-8'))
-    password_hash = hash_obj.hexdigest()
-    password_db_string = "$".join([algorithm, salt, password_hash])
-    return password_db_string
-    
-@insta485.app.route('/accounts/password/', methods=['GET'])
-def show_edit_password():
-    edit['username'] = flask.session['username']
-    context = {"edit": edit}
-    return flask.render_template("editPassword.html")
-
-@insta485.app.route('/accounts/password/', methods=['POST'])
-def update_edit_password():
-    connection = insta485.model.get_db()
+@insta485.app.route('/accounts/delete/', methods=['GET'])
+def show_delete():
     username = flask.session['username']
-    password = flask.request.form['password']
-    if not password:
-        flask.abort(400, "Password field was empty")
-    password_db_string = salt_pass(password)
-    params = (username, password_db_string)
-    #print(password_db_string)
-    cur = connection.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % params)
-    user = cur.fetchone()
-    if user is None:
-        flask.abort(403, "Invalid Password")
-    new_pass1 = flask.request.form['new_password1']
-    if not new_pass1:
-        flask.abort(400, "New pass word cannot be empty")
-    password_db_string = salt_pass(new_pass1)
-    params = password_db_string
-    cur = connection.execute("INSERT INTO users password VALUES('%s')" % params)
+    context = {"delete": username}
+    return flask.render_template("delete.html")

@@ -3,6 +3,9 @@ import insta485
 import pdb
 import uuid
 import pathlib
+import hashlib
+algorithm = 'sha512'
+salt = 'a45ffdcc71884853a2cba9e6bc55e812' # salt used from the spec **for easy testing.**
 #render edit page:
 @insta485.app.route('/accounts/edit/', methods=["GET"])
 def show_edit():
@@ -41,3 +44,37 @@ def update_profile():
     cur = connection.execute("UPDATE users SET fullname='%s', email='%s', filename='%s' WHERE username='%s'" % params)
     return flask.redirect(URL)
 
+@insta485.app.route('/accounts/password/', methods=['GET'])
+def show_edit_password():
+    username = flask.session['username']
+    context = {"edit": username}
+    return flask.render_template("editPassword.html")
+
+def salt_pass(password):
+    password_salted = salt + password
+    hash_obj = hashlib.new(algorithm)
+    hash_obj.update(password_salted.encode('utf-8'))
+    password_hash = hash_obj.hexdigest()
+    password_db_string = "$".join([algorithm, salt, password_hash])
+    return password_db_string
+
+@insta485.app.route('/accounts/password/', methods=['POST'])
+def update_edit_password():
+    connection = insta485.model.get_db()
+    username = flask.session['username']
+    password = flask.request.form['password']
+    if not password:
+        flask.abort(400, "Password field was empty")
+    password_db_string = salt_pass(password)
+    params = (username, password_db_string)
+    #print(password_db_string)
+    cur = connection.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % params)
+    user = cur.fetchone()
+    if user is None:
+        flask.abort(403, "Invalid Password")
+    new_pass1 = flask.request.form['new_password1']
+    if not new_pass1:
+        flask.abort(400, "New pass word cannot be empty")
+    password_db_string = salt_pass(new_pass1)
+    params = password_db_string
+    cur = connection.execute("INSERT INTO users password VALUES('%s')" % params)
