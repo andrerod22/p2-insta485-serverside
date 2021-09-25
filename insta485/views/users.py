@@ -11,20 +11,32 @@ def show_user(user_slug):
     checkUser = cur.fetchall()
     is_in_db = False
     for ind_user in checkUser:
-        if ind_user == user_slug:
+        if ind_user['username'] == user_slug:
             is_in_db = True
-    if is_in_db is False
+    if is_in_db is False:
         flask.abort(404, "User_slug was not found in DB")
     #retrieve info for user.html
+    #Grab visited user's username:
     sql = "SELECT * FROM users WHERE username='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData = cur.fetchall() # LIST, should be
+    #Grab all posts user made:
     sql = "SELECT postid FROM posts WHERE owner='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData[0]["numPosts"] = len(cur.fetchall())
+    #Get owner's profile picture:
     sql = "SELECT filename FROM posts WHERE owner='%s'" % (user_slug)
     cur = connection.execute(sql)
-    userData[1]['post_img'] = cur.fetchall()
+    userData[0]['post_img'] = cur.fetchall()
+    sql = "SELECT postid FROM posts WHERE owner='%s'" % (user_slug)
+    cur = connection.execute(sql)
+    post_ids = cur.fetchall()
+    i = 0
+    for post in userData[0]['post_img']:
+        post['post_id'] = post_ids[i]['postid']
+        i += 1
+    
+    #Get number of following:
     sql = "SELECT * FROM following WHERE username1='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData[0]['numFollowing'] = len(cur.fetchall())
@@ -36,6 +48,6 @@ def show_user(user_slug):
     userData[0]['numFollowers'] = len(cur.fetchall())
     #cur = connection.execute(sql)
     #userData['fullname'] = cur.fetchall()
-    context = {"UserData": userData} 
+    context = {"UserData": userData}
     #breakpoint()
     return flask.render_template("user.html", **context)
