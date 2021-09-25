@@ -56,7 +56,7 @@
     <input type="submit" name="create_post" value="upload new post"/>
     <input type="hidden" name="operation" value="create"/>
 </form>
-{% for post_img in UserData[1].post_img %}
+{% for post_img in UserData[0].post_img %}
     <a href="url_for('TODO')}})">
         <div class="postImg">
             <img src="{{ url_for('serve_img', filename=post_img ) }}" alt=Crossword.jpg>

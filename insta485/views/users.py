@@ -24,7 +24,7 @@ def show_user(user_slug):
     userData[0]["numPosts"] = len(cur.fetchall())
     sql = "SELECT filename FROM posts WHERE owner='%s'" % (user_slug)
     cur = connection.execute(sql)
-    userData[1]['post_img'] = cur.fetchall()
+    userData[0]['post_img'] = cur.fetchall()
     sql = "SELECT * FROM following WHERE username1='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData[0]['numFollowing'] = len(cur.fetchall())
