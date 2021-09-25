@@ -38,14 +38,14 @@
         {{UserData[0].numPosts}} posts
     {% endif %}
 
-    <a href="url_for('show_following', user_url_slug={{UserData[0].username}})">
+    <a href="{{ url_for('show_followers', user_url_slug=UserData[0].username) }}">
         {% if UserData[0].numFollowers == 1 %}
                 {{UserData[0].numFollowers}} follower
         {% else %}
             {{UserData[0].numFollowers}} followers
         {% endif %}
     </a>
-    <a href="url_for('show_followers', user_url_slug={{UserData[0].username}})">
+    <a href="{{ url_for('show_following', user_url_slug=UserData[0].username) }}">
         {{UserData[0].numFollowing}} following
     </a>
 </p>

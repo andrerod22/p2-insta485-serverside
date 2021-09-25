@@ -2,6 +2,7 @@
 Insta485 logout
 """
 from os import abort
+from re import S
 import flask
 import insta485
 import datetime
@@ -13,6 +14,7 @@ def follow_redirect():
     operation = flask.request.form['operation']
     follow_tar = flask.request.form['username']
     connection = insta485.model.get_db()
+    #SELECT the person we are following called follow_tar=username1
     sql = "SELECT username2 FROM following WHERE username1='%s' AND username2='%s'" % (currUser, follow_tar)
     cur = connection.execute(sql)
     followData = cur.fetchall()
@@ -40,14 +42,22 @@ def show_following(user_url_slug):
 
 @insta485.app.route('/users/<user_url_slug>/followers/', methods=["GET"])
 def show_followers(user_url_slug):
-    #currUser = flask.session['username']
+    currUser = flask.session['username']
     connection = insta485.model.get_db()
-    sql = "SELECT f.username1 f.username2 u.filename FROM following AS f INNER JOIN users AS u ON f.username1=u.username"
+    #get list of followers
+    sql = "SELECT filename, username FROM users WHERE username in (SELECT username1 FROM following WHERE username2 = '%s')" % currUser
     cur = connection.execute(sql)
     followers = cur.fetchall()
-    followers[0]["pageUser"] = user_url_slug
-    sql = "SELECT * FROM following WHERE username1='%s'" % (user_url_slug)
+    #Get list of following of users the person is following
+    sql = "SELECT username2 FROM following WHERE username1 = '%s'" % currUser
     cur = connection.execute(sql)
-    followers[1] = cur.fetchall()
+    followList = cur.fetchall()
+    followList = [follow['username2'] for follow in followList]
+    for follower in followers:
+        if follower['username'] not in followList:
+            follower['following_back'] = False
+        else:
+            follower['following_back'] = True
     context = {"followers": followers}
+    # breakpoint()
     return flask.render_template("followers.html", **context)
