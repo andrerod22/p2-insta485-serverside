@@ -10,3 +10,5 @@ from insta485.views.explore import show_explore
 from insta485.views.users import show_user
 from insta485.views.follow import follow_redirect
 from insta485.views.post import show_post
+from insta485.views.edit import show_edit
+from insta485.views.edit import update_profile

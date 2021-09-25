@@ -102,16 +102,6 @@ def logout():
 def show_create():
     return flask.render_template("create.html")
 
-@insta485.app.route('/accounts/edit/', methods=['GET'])
-def show_edit():
-    connection = insta485.model.get_db()
-    currUser = flask.session['username']
-    sql = "SELECT * FROM users WHERE username='%s'" % (currUser)
-    cur = connection.execute(sql)
-    edit = cur.fetchall()
-    #TODO get info from form
-    context = {"edit": edit}
-    return flask.render_template("edit.html", **context)
 
 @insta485.app.route('/accounts/password/', methods=['GET'])
 def show_edit_password():

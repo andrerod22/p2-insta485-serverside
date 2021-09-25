@@ -1,30 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
+<br><br>
 <div>
     <!--<a href="{{ url_for('show_edit', user_slug = edit.username ) }}">-->
-        <img src="{{ url_for('serve_img', filename=edit.filename ) }}" alt=postOwnerPic.jpg style="width:50px;">
-        <span style="font-weight:bold">{{edit.username}} </span> 
+        <img src="{{ url_for('serve_img', filename=edit[0].filename) }}" alt=postOwnerPic.jpg style="width:50px;">
+        <span style="font-weight:bold">{{edit[0].username}} </span> 
     <!--</a>-->
 </div>
 <div>
+    <br><br>
     <!-- edit account form -->
-    <form action="TODO?target=/accounts/edit/" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*"/>
-        <input type="text" name="fullname" value="{{edit.fullname}}" required/>
-        <input type="text" name="email" value="{{edit.email}}" required/>
-        <input type="submit" name="update" value="submit"/>
+    <form action="{{ url_for('update_profile', target='/accounts/edit/') }}" method="post" enctype="multipart/form-data">
+        Photo <input type="file" name="file" accept="image/*"/> <br>
+        Name <input type="text" name="fullname" value="{{edit[0].fullname}}" required/> <br>
+        Email <input type="text" name="email" value="{{edit[0].email}}" required/> <br>
+        &emsp;&emsp;&ensp;<input type="submit" name="update" value="submit"/>
         <input type="hidden" name="operation" value="edit_account"/>
     </form>
 </div>
 <div>
     <p>
-        <a href="{{ url_for('show_edit_password', user_slug = edit.username ) }}">
+        <a href="{{ url_for('show_edit_password', user_slug = edit[0].username ) }}">
             <span style="font-weight:bold">Change password </span> 
         </a>
     </p>
     <p>
-        <a href="{{ url_for('account_redirect', user_slug = edit.username ) }}">
+        <a href="{{ url_for('account_redirect', user_slug = edit[0].username ) }}">
             <span style="font-weight:bold">Delete account </span> 
         </a>
     </p>
