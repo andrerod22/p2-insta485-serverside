@@ -60,7 +60,7 @@
 {% endif %}
 <br><br>
 {% for p in UserData[0].post_img %}
-    <a href="{{ url_for('show_post', postid_url_slug = p['post_img']) }}">
+    <a href="{{ url_for('show_post', postid_url_slug = p['post_id']) }}">
         <div class="postImg" style='display:inline-block; margin: 0 15px 0 0;'>
             <img src="{{ url_for('serve_img', filename=p.filename ) }}" alt=Crossword.jpg style='width:350px;'>
         </div>
