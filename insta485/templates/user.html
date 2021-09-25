@@ -17,17 +17,17 @@
         <p>following</p>
         <!--Follow Button-->
         <form action="{{ url_for('follow_redirect', target='/user/UserData[0].username') }}" method="post" enctype="multipart/form-data">
-            <input type="submit" name="follow" value="follow"/>
+            <input type="submit" name="unfollow" value="unfollow"/>
             <input type="hidden" name="username" value="{{UserData[0].username}}"/>
-            <input type="hidden" name="operation" value="follow"/>
+            <input type="hidden" name="operation" value="unfollow"/>
         </form>
     {% else %}
         <p>not following</p>
         <!--Unfollow Button-->
         <form action="{{ url_for('follow_redirect', target='/user/UserData[0].username') }}" method="post" enctype="multipart/form-data">
-            <input type="submit" name="unfollow" value="unfollow"/>
+            <input type="submit" name="follow" value="follow"/>
             <input type="hidden" name="username" value="{{UserData[0].username}}"/>
-            <input type="hidden" name="operation" value="unfollow"/>
+            <input type="hidden" name="operation" value="follow"/>
         </form>
     {% endif %}
 {% endif %}
