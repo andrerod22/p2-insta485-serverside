@@ -4,6 +4,8 @@ from insta485.views.index import serve_img
 from insta485.views.accounts import show_login
 from insta485.views.accounts import account_redirect
 from insta485.views.accounts import logout
+from insta485.views.account import show_edit_passwordS
+from insta485.views.account import update_edit_password
 from insta485.views.comments import update_user_comment
 from insta485.views.likes import update_likes
 from insta485.views.explore import show_explore

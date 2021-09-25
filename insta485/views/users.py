@@ -46,8 +46,5 @@ def show_user(user_slug):
     sql = "SELECT * FROM following WHERE username2='%s'" % (user_slug)
     cur = connection.execute(sql)
     userData[0]['numFollowers'] = len(cur.fetchall())
-    #cur = connection.execute(sql)
-    #userData['fullname'] = cur.fetchall()
     context = {"UserData": userData}
-    #breakpoint()
     return flask.render_template("user.html", **context)

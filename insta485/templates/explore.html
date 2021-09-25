@@ -5,7 +5,7 @@
 <div>
     {% for explore in not_following %}
         <img src="{{ url_for('serve_img', filename=explore.filename ) }}" style="width: 50px;">
-        <a href="/{{explore['username']}}/">
+        <a href="{{ url_for('show_user', user_slug=explore.username)}}">
             {{explore['username']}}
         </a>
         <!--Follow Button-->
