@@ -13,7 +13,7 @@
             {{following_var['username']}}
         </a>
         <!--status following/followed-->
-        {% if logname != following_var.username %}
+        {% if session.username != following_var.username %}
             {% if following_var.logname_follows_username %} following
                 <!--Unfollow Button-->
                 <form action="{{ url_for('follow_redirect', target='/following/') }}" method="post" enctype="multipart/form-data">
