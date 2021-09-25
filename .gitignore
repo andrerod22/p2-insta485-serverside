@@ -69,3 +69,7 @@ files_for_autograder_io/
 # Google Drive and Dropbox
 Icon
 .dropbox*
+
+# AWS deployment
+deployed_insta485.log
+deployed_insta485.html
