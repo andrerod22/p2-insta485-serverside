@@ -70,6 +70,9 @@ files_for_autograder_io/
 Icon
 .dropbox*
 
+# Style doc for error checking
+style-errors.txt
+
 # AWS deployment
 deployed_insta485.log
 deployed_insta485.html
