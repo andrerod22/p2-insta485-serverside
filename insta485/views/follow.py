@@ -1,8 +1,6 @@
 """
 Insta485 logout
 """
-from os import abort
-from re import S
 import flask
 import insta485
 import datetime
@@ -39,25 +37,27 @@ def follow_redirect():
 def show_following(user_url_slug):
     connection = insta485.model.get_db()
     #get list of followers
-    currUser = flask.session['username']
-    sql = "SELECT filename, username FROM users WHERE username in (SELECT username1 FROM following WHERE username2 = '%s')" % user_url_slug
+    currUser = flask.session['username'] #session user 
+    # user_url_slug -> username2
+    sql = "SELECT filename, username FROM users WHERE username in (SELECT username2 FROM following WHERE username1 = '%s')" % user_url_slug
     cur = connection.execute(sql)
-    followers = cur.fetchall()
+    following = cur.fetchall()
     #Get list of following of users the person is following
     sql = "SELECT username2 FROM following WHERE username1 = '%s'" % currUser
     cur = connection.execute(sql)
     followList = cur.fetchall()
-    followList = [follow['username2'] for follow in followList]
-    for follower in followers:
-        if follower['username'] not in followList:
-            follower['following_back'] = False
+    followList = [follow['username2'] for follow in followList] #if entry is not empty?
+    for following_var in following:
+        if following_var['username'] not in followList:
+            following_var['following_back'] = False
         else:
-            follower['following_back'] = True
-        follower['user_slug'] = user_url_slug
-    context = {"followers": followers}
-    #TODO if followers is successful
+            following_var['following_back'] = True
+        following_var['user_slug'] = user_url_slug
+    context = {"following": following}
+    #breakpoint()
     return flask.render_template("following.html", **context)
 
+#DO NOT TOUCH
 @insta485.app.route('/users/<user_url_slug>/followers/', methods=["GET"])
 def show_followers(user_url_slug):
     connection = insta485.model.get_db()
