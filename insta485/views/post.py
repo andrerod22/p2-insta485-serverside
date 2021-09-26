@@ -45,14 +45,15 @@ def show_post(postid_url_slug):
     context = {"posts": postData}
     return flask.render_template("post.html", **context)
 
-@insta485.app.route('/posts/<postid_url_slug>/', methods=['GET', 'DELETE'])
-def delete_post():
+@insta485.app.route('/posts/<postid_url_slug>/', methods=['POST'])
+def delete_post(postid_url_slug):
+    connection = insta485.model.get_db()
     operation = flask.request.form['operation']
     curr_user = flask.session['username'] #owner
     target = flask.request.args.get('target')
     URL = target
     if operation == 'delete':
-        postid = flask.request.form['postid']
+        postid = postid_url_slug
         sql = "SELECT owner FROM posts WHERE postid='%s'" % (postid)
         cur = connection.execute(sql)
         post_owner = cur.fetchone()
