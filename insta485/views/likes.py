@@ -11,8 +11,9 @@ import datetime
 @insta485.app.route("/likes/", methods=["POST"])
 def update_likes():
     #setup==========================================
-    breakpoint()
     target = flask.request.args.get('target')
+    #URL = '/posts/' + target + '/'
+    #breakpoint()
     operation = flask.request.form['operation']
     postid = flask.request.form['postid']
     currUser = flask.session['username'] #owner
@@ -38,5 +39,6 @@ def update_likes():
             cur = connection.execute(sql)
         else:
             flask.abort(409, "User tried to unlike a post he did not like prior")
-
+        #if target != '/':
+            #return flask.redirect(URL)
     return flask.redirect(target)
