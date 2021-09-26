@@ -46,14 +46,13 @@ def show_post(postid_url_slug):
     context = {"posts": postData}
     return flask.render_template("post.html", **context)
 
-@insta485.app.route('/posts/<postid_url_slug>/', methods=['POST'])
-def delete_post(postid_url_slug):
+@insta485.app.route('/posts/', methods=["POST"])
+def post_redirect():
     operation = flask.request.form['operation']
+    URL = flask.request.args.get('target')
     curr_user = flask.session['username'] #owner
-    target = flask.request.args.get('target')
-    URL = '/users/' + curr_user + '/'
     if operation == 'delete':
-        postid = postid_url_slug
+        postid = flask.request.form['postid']
         connection = insta485.model.get_db() #username is a primary key. 
         sql = "SELECT owner FROM posts WHERE postid='%s'" % (postid)
         cur = connection.execute(sql)
@@ -61,11 +60,12 @@ def delete_post(postid_url_slug):
         post_owner = post_owner['owner']
         if curr_user != post_owner:
             flask.abort(403,"Can't delete other user's post")
-        breakpoint()
         cur = connection.execute("SELECT filename FROM posts WHERE postid='%s' AND owner = '%s'" % (postid, curr_user))
         target_post = cur.fetchall()
         filePath = insta485.app.config['UPLOAD_FOLDER']/target_post[0]['filename']
         filePath.unlink()
         sql = "DELETE FROM posts WHERE postid='%s' AND owner='%s'" % (postid, curr_user)
         cur = connection.execute(sql)
+    elif operation == 'create':
+        pass
     return flask.redirect(URL)
