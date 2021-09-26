@@ -365,6 +365,7 @@ def test_delete_post(client):
         "/posts/",
         data={"postid": "1", "operation": "delete"}
     )
+    # breakpoint()
     assert response.status_code == 302
     urlpath = urlparse(response.location).path
     assert urlpath == "/users/awdeorio/"

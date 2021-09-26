@@ -1,8 +1,14 @@
+from insta485.views.users import show_user
 import flask
 from flask.helpers import url_for
 import insta485
 import arrow
+import uuid
+import pathlib
+import datetime
+
 @insta485.app.route("/posts/<postid_url_slug>/", methods=["GET"])
+
 def show_post(postid_url_slug):
     #breakpoint()
     if 'username' not in flask.session:
@@ -49,8 +55,8 @@ def show_post(postid_url_slug):
 @insta485.app.route('/posts/', methods=["POST"])
 def post_redirect():
     operation = flask.request.form['operation']
-    URL = flask.request.args.get('target')
     curr_user = flask.session['username'] #owner
+    URL = flask.request.args.get('target')
     if operation == 'delete':
         postid = flask.request.form['postid']
         connection = insta485.model.get_db() #username is a primary key. 
@@ -66,6 +72,20 @@ def post_redirect():
         filePath.unlink()
         sql = "DELETE FROM posts WHERE postid='%s' AND owner='%s'" % (postid, curr_user)
         cur = connection.execute(sql)
+        return flask.redirect(url_for('show_user', user_slug = curr_user))
     elif operation == 'create':
-        pass
+        URL =  url_for('show_user', user_slug =  curr_user)
+        fileobj = flask.request.files["file"]
+        filename = fileobj.filename
+        uuid_basename = "{stem}{suffix}".format(
+            stem=uuid.uuid4().hex,
+            suffix=pathlib.Path(filename).suffix
+            )
+        path = insta485.app.config["UPLOAD_FOLDER"]/uuid_basename
+        fileobj.save(path)
+        connection = insta485.model.get_db()
+        time_stamp = datetime.datetime.utcnow()
+        time_stamp = time_stamp.strftime('%Y-%m-%d %H:%M:%S')
+        params = (uuid_basename, curr_user, time_stamp)
+        cur = connection.execute("INSERT INTO posts(filename,owner,created) VALUES('%s','%s','%s')" % params)
     return flask.redirect(URL)

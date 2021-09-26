@@ -54,23 +54,3 @@ def show_user(user_slug):
     context = {"UserData": userData}
     #breakpoint()
     return flask.render_template("user.html", **context)
-
-@insta485.app.route('/users/<user_slug>/', methods=["POST"])
-def upload_post(user_slug):
-    breakpoint()
-    URL = '/users/' + user_slug + '/'
-    fileobj = flask.request.files["file"]
-    filename = fileobj.filename
-    uuid_basename = "{stem}{suffix}".format(
-        stem=uuid.uuid4().hex,
-        suffix=pathlib.Path(filename).suffix
-        )
-    path = insta485.app.config["UPLOAD_FOLDER"]/uuid_basename
-    fileobj.save(path)
-    connection = insta485.model.get_db()
-    time_stamp = datetime.datetime.utcnow()
-    time_stamp = time_stamp.strftime('%Y-%m-%d %H:%M:%S')
-    params = (uuid_basename, user_slug, time_stamp)
-    #cur = connection.execute("INSERT INTO users(username,fullname,email,filename,password,created) VALUES('%s','%s','%s','%s','%s','%s')" % params)
-    cur = connection.execute("INSERT INTO posts(filename,owner,created) VALUES('%s','%s','%s')" % params)
-    return flask.redirect(URL)
