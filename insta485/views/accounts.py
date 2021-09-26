@@ -85,7 +85,6 @@ def account_redirect():
         cur = connection.execute("INSERT INTO users(username,fullname,email,filename,password,created) VALUES('%s','%s','%s','%s','%s','%s')" % params)
         flask.session['username'] = username
     elif operation == 'delete':
-        #breakpoint()
         delete_user = flask.session['username']
         connection = insta485.model.get_db()
         cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
@@ -108,7 +107,6 @@ def account_redirect():
         # Save to disk
         path = insta485.app.config["UPLOAD_FOLDER"]/uuid_basename
         fileobj.save(path)
-
         params = (fullname, email, uuid_basename, curr_user)
         connection.execute("UPDATE users SET fullname='%s', email='%s', filename ='%s' WHERE username='%s'" % params)
     elif operation == 'update_password':
