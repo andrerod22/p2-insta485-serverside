@@ -4,6 +4,7 @@
 <!--header-->
 <!--<h1>Followers</h1>-->
 <!--for loop for each followed/following user-->
+<h1>Followers</h1>
 {% for follower_var in followers %}
     {% if session.username != follower_var.username %}
         <div>

@@ -9,9 +9,11 @@ import datetime
 @insta485.app.route('/comments/', methods=['POST', 'DELETE'])
 def update_user_comment():
     #comments: count comments in post associated w/ postid
+
     operation = flask.request.form['operation']
     currUser = flask.session['username'] #owner
-    URL = flask.request.args.get('target')
+    target = flask.request.args.get('target')
+    URL = '/posts/' + str(target) + '/'
     connection = insta485.model.get_db() #username is a primary key. 
     #Save the URL from the page we are on, so we can redirect later:
     #Insert Comment
@@ -22,6 +24,7 @@ def update_user_comment():
         time_stamp = time_stamp.strftime('%Y-%m-%d %H:%M:%S')
         sql = "INSERT INTO comments (owner, postid, text, created) VALUES ('%s', '%s', '%s', '%s')" % (currUser, postid, text, time_stamp)
         cur = connection.execute(sql)
+        #return flask.redirect()
 
     #Delete Comment
     elif operation == 'delete':
@@ -43,4 +46,6 @@ def update_user_comment():
 
 
     #return updated json object to the page comment was inserted on!
+    if target == '/':
+        return flask.redirect('/')
     return flask.redirect(URL)

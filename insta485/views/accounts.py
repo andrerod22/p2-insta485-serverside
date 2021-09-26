@@ -42,6 +42,7 @@ def account_redirect():
         connection = insta485.model.get_db()
         params = (username, password_db_string)
         print(password_db_string)
+        #breakpoint()
         cur = connection.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % params)
         user = cur.fetchone()
         if user is None:
@@ -88,11 +89,12 @@ def account_redirect():
         delete_user = flask.session['username']
         connection = insta485.model.get_db()
         cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
-        flask.session.clear() 
-    return flask.redirect('/accounts/login/')
+        flask.session.clear()
+        return flask.redirect('/accounts/create/')
+    return flask.redirect(URL)
     #TODO Other operations like account create, edit, etc. Refer to spec. 
 
-
+#CHECK LOGOUT() AND SHOW_LOGIN() FOR ASSERT 302 ERROR IN TEST ACCOUNTS PASSWORD
 @insta485.app.route('/accounts/login/', methods=["GET"])
 def show_login():
     if 'username' in flask.session: #If the user is already logged in, redirect back to index.

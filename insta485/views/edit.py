@@ -4,7 +4,7 @@ import pdb
 import uuid
 import pathlib
 import hashlib
-
+from urllib.parse import urlparse
 algorithm = 'sha512'
 salt = 'a45ffdcc71884853a2cba9e6bc55e812' # salt used from the spec **for easy testing.**
 #render edit page:
@@ -46,6 +46,7 @@ def update_profile():
         connection = insta485.model.get_db()
         cur = connection.execute("UPDATE users SET fullname='%s', email='%s', filename='%s' WHERE username='%s'" % params)
     #CHECK LATER
+    #breakpoint()
     return flask.redirect(URL)
 
 @insta485.app.route('/accounts/password/', methods=['GET'])
@@ -80,11 +81,17 @@ def update_edit_password():
         if user is None:
             flask.abort(403, "Invalid Password")
         new_pass1 = flask.request.form['new_password1']
-        if not new_pass1:
+        new_pass2 = flask.request.form['new_password2']
+        if not new_pass1 or not new_pass2:
             flask.abort(400, "New pass word cannot be empty")
+        if new_pass1 != new_pass2:
+            flask.abort(401, "New password do not match")
         password_db_string = salt_pass(new_pass1)
         params = password_db_string
         sql = "UPDATE users SET password ='%s' WHERE username='%s'" % (password_db_string, username)
         cur = connection.execute(sql)
+        #REDO LATER TO IMPLEMENT TARGET VARIABLE
+        return flask.redirect(URL)
     #CHECK LATER
+    #breakpoint()
     return flask.redirect(URL)

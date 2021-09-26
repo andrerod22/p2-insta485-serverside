@@ -38,30 +38,26 @@ VALUES (
 );
 
 -- initial data for posts --
-INSERT INTO posts(filename, owner, created)
+INSERT INTO posts(filename, owner)
 VALUES(
     '122a7d27ca1d7420a1072f695d9290fad4501a41.jpg',
-    'awdeorio',
-    '2017-06-20 15:47:02'
-);
-INSERT INTO posts(filename, owner, created)
+    'awdeorio'
+    );
+INSERT INTO posts(filename, owner)
 VALUES(
     'ad7790405c539894d25ab8dcf0b79eed3341e109.jpg',
-    'jflinn',
-    '2017-06-20 15:47:02'
-);
-INSERT INTO posts(filename, owner, created)
+    'jflinn'
+    );
+INSERT INTO posts(filename, owner)
 VALUES(
     '9887e06812ef434d291e4936417d125cd594b38a.jpg',
-    'awdeorio',
-    '2017-06-20 15:47:02'
-);
-INSERT INTO posts(filename, owner, created)
+    'awdeorio'
+    );
+INSERT INTO posts(filename, owner)
 VALUES(
     '2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg',
-    'jag',
-    '2017-06-20 15:47:02'
-);
+    'jag'
+    );
 
 -- initial data for likes --
 INSERT INTO likes(owner, postid, created)
