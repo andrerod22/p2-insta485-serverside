@@ -13,7 +13,14 @@ def update_user_comment():
     operation = flask.request.form['operation']
     currUser = flask.session['username'] #owner
     target = flask.request.args.get('target')
-    URL = '/posts/' + str(target) + '/'
+    if target is None:
+        URL = '/'
+    elif '/posts/' in target:
+        URL = target
+    elif '/posts/' not in target:
+        URL = '/posts/' + str(target) + '/'
+    else:
+        URL = '/'
     connection = insta485.model.get_db() #username is a primary key. 
     #Save the URL from the page we are on, so we can redirect later:
     #Insert Comment
