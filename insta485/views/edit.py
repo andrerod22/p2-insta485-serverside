@@ -63,7 +63,7 @@ def salt_pass(password):
     password_db_string = "$".join([algorithm, salt, password_hash])
     return password_db_string
 
-@insta485.app.route('/accounts/password/', methods=['POST'])
+@insta485.app.route('/accounts/password/', methods=['GET'])
 def update_edit_password():
     URL = flask.request.args.get('target')
     operation = flask.request.form['operation']
