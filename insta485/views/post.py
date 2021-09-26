@@ -46,12 +46,13 @@ def show_post(postid_url_slug):
     context = {"posts": postData}
     return flask.render_template("post.html", **context)
 
-@insta485.app.route('/posts/<user_slug>/', methods=['GET', 'DELETE'])
-def delete_post():
+@insta485.app.route('/posts/<postid_url_slug>/', methods=['POST'])
+def delete_post(postid_url_slug):
     operation = flask.request.form['operation']
     curr_user = flask.session['username'] #owner
     target = flask.request.args.get('target')
-    URL = target
+    URL = '/users/' + curr_user + '/'
+    breakpoint()
     if operation == 'delete':
         postid = flask.request.form['postid']
         connection = insta485.model.get_db() #username is a primary key. 
