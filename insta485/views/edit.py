@@ -22,27 +22,30 @@ def show_edit():
 #update SQL based on submission form:
 @insta485.app.route('/accounts/edit/', methods=['POST'])
 def update_profile():
-    curr_user = flask.session['username']
-    fileobj = flask.request.files["file"]
-    filename = fileobj.filename
-    URL = flask.request.args.get('target')
-    # Compute base name (filename without directory).  We use a UUID to avoid
-    # clashes with existing files, and ensure that the name is compatible with the
-    # filesystem.
-    uuid_basename = "{stem}{suffix}".format(
-        stem=uuid.uuid4().hex,
-        suffix=pathlib.Path(filename).suffix
-        )
-    fullname = flask.request.form['fullname']
-    email = flask.request.form['email']
-    if not (fullname and email and uuid_basename):
-        flask.abort(400, "One or more of the required fields are empty.")
-    # Save to disk
-    path = insta485.app.config["UPLOAD_FOLDER"]/uuid_basename
-    fileobj.save(path)
-    params = (fullname, email, uuid_basename, curr_user)
-    connection = insta485.model.get_db()
-    cur = connection.execute("UPDATE users SET fullname='%s', email='%s', filename='%s' WHERE username='%s'" % params)
+    operation = flask.request.form['operation']
+    if operation == "edit_account":
+        curr_user = flask.session['username']
+        fileobj = flask.request.files["file"]
+        filename = fileobj.filename
+        URL = flask.request.args.get('target')
+        # Compute base name (filename without directory).  We use a UUID to avoid
+        # clashes with existing files, and ensure that the name is compatible with the
+        # filesystem.
+        uuid_basename = "{stem}{suffix}".format(
+            stem=uuid.uuid4().hex,
+            suffix=pathlib.Path(filename).suffix
+            )
+        fullname = flask.request.form['fullname']
+        email = flask.request.form['email']
+        if not (fullname and email and uuid_basename):
+            flask.abort(400, "One or more of the required fields are empty.")
+        # Save to disk
+        path = insta485.app.config["UPLOAD_FOLDER"]/uuid_basename
+        fileobj.save(path)
+        params = (fullname, email, uuid_basename, curr_user)
+        connection = insta485.model.get_db()
+        cur = connection.execute("UPDATE users SET fullname='%s', email='%s', filename='%s' WHERE username='%s'" % params)
+    #CHECK LATER
     return flask.redirect(URL)
 
 @insta485.app.route('/accounts/password/', methods=['GET'])
@@ -61,21 +64,26 @@ def salt_pass(password):
 
 @insta485.app.route('/accounts/password/', methods=['POST'])
 def update_edit_password():
-    connection = insta485.model.get_db()
-    username = flask.session['username']
-    password = flask.request.form['password']
-    if not password:
-        flask.abort(400, "Password field was empty")
-    password_db_string = salt_pass(password)
-    params = (username, password_db_string)
-    #print(password_db_string)
-    cur = connection.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % params)
-    user = cur.fetchone()
-    if user is None:
-        flask.abort(403, "Invalid Password")
-    new_pass1 = flask.request.form['new_password1']
-    if not new_pass1:
-        flask.abort(400, "New pass word cannot be empty")
-    password_db_string = salt_pass(new_pass1)
-    params = password_db_string
-    cur = connection.execute("INSERT INTO users password VALUES('%s')" % params)
+    URL = flask.request.args('target')
+    operation = flask.request.form['operation']
+    if operation == "update_password":
+        connection = insta485.model.get_db()
+        username = flask.session['username']
+        password = flask.request.form['password']
+        if not password:
+            flask.abort(400, "Password field was empty")
+        password_db_string = salt_pass(password)
+        params = (username, password_db_string)
+        #print(password_db_string)
+        cur = connection.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % params)
+        user = cur.fetchone()
+        if user is None:
+            flask.abort(403, "Invalid Password")
+        new_pass1 = flask.request.form['new_password1']
+        if not new_pass1:
+            flask.abort(400, "New pass word cannot be empty")
+        password_db_string = salt_pass(new_pass1)
+        params = password_db_string
+        cur = connection.execute("INSERT INTO users password VALUES('%s')" % params)
+    #CHECK LATER
+    return flask.redirect(URL)

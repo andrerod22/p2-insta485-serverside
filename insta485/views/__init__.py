@@ -15,3 +15,5 @@ from insta485.views.edit import show_edit
 from insta485.views.edit import update_profile
 from insta485.views.edit import show_edit_password
 from insta485.views.edit import update_edit_password
+from insta485.views.users import show_user
+from insta485.views.users import upload_post

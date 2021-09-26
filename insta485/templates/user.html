@@ -52,19 +52,18 @@
 <p>{{UserData[0].fullname}}</p>
 <!-- Upload new post -->
 {% if session['username'] == UserData[0].username %}
-    <form action="<FIXME_POSTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" required/>
-        <input type="submit" name="create_post" value="upload new post"/>
-        <input type="hidden" name="operation" value="create"/>
-    </form>
+<form action="{{ url_for('upload_post', user_slug=session['username']) }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*" required/>
+    <input type="submit" name="create_post" value="upload new post"/>
+    <input type="hidden" name="operation" value="create"/>
+</form>
 {% endif %}
 <br><br>
 {% for p in UserData[0].post_img %}
-    <a href="{{ url_for('show_post', postid_url_slug = p['post_id']) }}">
-        <div class="postImg" style='display:inline-block; margin: 0 15px 0 0;'>
-            <img src="{{ url_for('serve_img', filename=p.filename ) }}" alt=Crossword.jpg style='width:350px;'>
-        </div>
-    </a>
+<a href="{{ url_for('show_post', postid_url_slug=p.post_id) }}">
+    <div class="postImg" style='display:inline-block; margin: 0 15px 0 0;'>
+        <img src="{{ url_for('serve_img', filename=p.filename ) }}" alt=Crossword.jpg style='width:350px;'>
+    </div>
+</a>
 {% endfor %}
-
 {% endblock %}
