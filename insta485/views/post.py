@@ -1,8 +1,11 @@
 import flask
+from flask.helpers import url_for
 import insta485
 import arrow
 @insta485.app.route("/posts/<postid_url_slug>/", methods=["GET"])
 def show_post(postid_url_slug):
+    if 'username' not in flask.session:
+        return flask.redirect(url_for('show_login'))
     currUser = flask.session['username']
     connection = insta485.model.get_db() #username is a primary key. 
     sql = "SELECT postid, filename, owner, created FROM posts WHERE postid='%s'" % postid_url_slug

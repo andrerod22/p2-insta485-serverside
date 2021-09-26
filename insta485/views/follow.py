@@ -2,11 +2,14 @@
 Insta485 logout
 """
 import flask
+from werkzeug.utils import redirect
 import insta485
 import datetime
 
 @insta485.app.route('/following/', methods=["POST"])
 def follow_redirect():
+    if 'username' not in flask.session: 
+        return flask.redirect("show_login")
     currUser = flask.session['username']
     target = flask.request.args.get('target')
     operation = flask.request.form['operation']
@@ -35,6 +38,8 @@ def follow_redirect():
         
 @insta485.app.route('/users/<user_url_slug>/following/', methods=["GET"])
 def show_following(user_url_slug):
+    if 'username' not in flask.session:
+        return redirect('show_login')
     connection = insta485.model.get_db()
     #get list of followers
     currUser = flask.session['username'] #session user 
@@ -60,6 +65,8 @@ def show_following(user_url_slug):
 #DO NOT TOUCH
 @insta485.app.route('/users/<user_url_slug>/followers/', methods=["GET"])
 def show_followers(user_url_slug):
+    if 'username' not in flask.session:
+        return redirect('show_login')
     connection = insta485.model.get_db()
     #get list of followers
     currUser = flask.session['username']

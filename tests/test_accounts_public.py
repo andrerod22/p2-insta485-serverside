@@ -114,7 +114,8 @@ def test_accounts_edit(client, mocker):
                 "operation": "edit_account"
             },
         )
-
+    
+    # breakpoint()
     assert response.status_code == 302
     urlpath = urlparse(response.location).path
     assert urlpath == "/accounts/edit/"
@@ -144,7 +145,6 @@ def test_accounts_edit(client, mocker):
         "FROM users WHERE username='awdeorio'"
     )
     users = cur.fetchall()
-
     # Verify new database entry
     assert users == [(
         "awdeorio",
@@ -264,7 +264,7 @@ def test_accounts_delete(client):
         },
     )
     assert response.status_code == 403
-
+    # breakpoint()
     # User pages should be gone
     response = client.get("/users/awdeorio/")
     assert response.status_code == 302

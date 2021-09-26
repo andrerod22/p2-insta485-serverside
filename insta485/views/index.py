@@ -5,6 +5,7 @@ URLs include:
 /
 """
 import flask
+from flask.wrappers import Response
 import insta485
 import arrow
 import pdb
@@ -65,4 +66,6 @@ def show_index():
 
 @insta485.app.route('/uploads/<path:filename>', methods=["GET"])
 def serve_img(filename):
+    if 'username' not in flask.session:
+        return flask.abort(403)
     return flask.send_from_directory(insta485.app.config['UPLOAD_FOLDER'], filename, as_attachment=True)

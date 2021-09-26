@@ -6,7 +6,8 @@ import datetime
 
 @insta485.app.route('/users/<user_slug>/', methods=["GET"])
 def show_user(user_slug):
-    #breakpoint()
+    if 'username' not in flask.session:
+        return flask.redirect('show_login')
     currUser = flask.session['username']
     connection = insta485.model.get_db()
     #Check if user_slug is in the database

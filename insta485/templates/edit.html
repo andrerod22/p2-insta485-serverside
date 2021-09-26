@@ -11,7 +11,7 @@
 <div>
     <br><br>
     <!-- edit account form -->
-    <form action="{{ url_for('update_profile', target='/accounts/edit/') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ url_for('account_redirect', target='/accounts/edit/') }}" method="post" enctype="multipart/form-data">
         Photo <input type="file" name="file" accept="image/*"/> <br>
         Name <input type="text" name="fullname" value="{{edit[0].fullname}}" required/> <br>
         Email <input type="text" name="email" value="{{edit[0].email}}" required/> <br>
