@@ -18,6 +18,7 @@ import hashlib
 import pathlib
 import datetime
 import pdb
+from pathlib import Path
 
 algorithm = 'sha512'
 salt = 'a45ffdcc71884853a2cba9e6bc55e812' # salt used from the spec **for easy testing.**
@@ -85,10 +86,17 @@ def account_redirect():
         cur = connection.execute("INSERT INTO users(username,fullname,email,filename,password,created) VALUES('%s','%s','%s','%s','%s','%s')" % params)
         flask.session['username'] = username
     elif operation == 'delete':
-        #breakpoint()
         delete_user = flask.session['username']
+        #find user icon filename and delete
         connection = insta485.model.get_db()
-        cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
+        cur = connection.execute("SELECT filename FROM users WHERE username = '%s'" % delete_user)
+        iconfile = cur.fetchone()['filename']
+        iconfilePath = insta485.app.config['UPLOAD_FOLDER']/iconfile
+        # iconfilePath.path
+
+        #find post filenames  associated with the user. 
+        connection = insta485.model.get_db()
+        # cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
         flask.session.clear()
     elif operation == 'edit_account':
         connection = insta485.model.get_db()
