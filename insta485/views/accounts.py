@@ -47,6 +47,8 @@ def account_redirect():
         if user is None:
             flask.abort(403, "Invalid Username and Password Combination")
         flask.session['username'] = username
+        #PASSES login_logout & insta485run
+        return flask.redirect('/')
         
     elif operation == 'create':
         fileobj = flask.request.files["file"]
@@ -87,7 +89,7 @@ def account_redirect():
         connection = insta485.model.get_db()
         cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
         flask.session.clear() 
-    return flask.redirect(URL)
+    return flask.redirect('/accounts/login/')
     #TODO Other operations like account create, edit, etc. Refer to spec. 
 
 
