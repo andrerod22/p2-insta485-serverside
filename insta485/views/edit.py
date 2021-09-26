@@ -64,7 +64,7 @@ def salt_pass(password):
 
 @insta485.app.route('/accounts/password/', methods=['POST'])
 def update_edit_password():
-    URL = flask.request.args('target')
+    URL = flask.request.args.get('target')
     operation = flask.request.form['operation']
     if operation == "update_password":
         connection = insta485.model.get_db()
@@ -84,6 +84,7 @@ def update_edit_password():
             flask.abort(400, "New pass word cannot be empty")
         password_db_string = salt_pass(new_pass1)
         params = password_db_string
-        cur = connection.execute("INSERT INTO users password VALUES('%s')" % params)
+        sql = "UPDATE users SET password ='%s' WHERE username='%s'" % (password_db_string, username)
+        cur = connection.execute(sql)
     #CHECK LATER
     return flask.redirect(URL)
