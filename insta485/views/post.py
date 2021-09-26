@@ -4,10 +4,11 @@ import insta485
 import arrow
 @insta485.app.route("/posts/<postid_url_slug>/", methods=["GET"])
 def show_post(postid_url_slug):
+    #breakpoint()
     if 'username' not in flask.session:
         return flask.redirect(url_for('show_login'))
     curr_user = flask.session['username']
-    connection = insta485.model.get_db() #username is a primary key. 
+    connection = insta485.model.get_db()
     sql = "SELECT postid, filename, owner, created FROM posts WHERE postid='%s'" % postid_url_slug
     cur = connection.execute(sql)
     postData = cur.fetchall()
@@ -45,7 +46,7 @@ def show_post(postid_url_slug):
     context = {"posts": postData}
     return flask.render_template("post.html", **context)
 
-@insta485.app.route('/posts/<postid_url_slug>/', methods=['GET', 'DELETE'])
+@insta485.app.route('/posts/<user_slug>/', methods=['GET', 'DELETE'])
 def delete_post():
     operation = flask.request.form['operation']
     curr_user = flask.session['username'] #owner
@@ -53,6 +54,7 @@ def delete_post():
     URL = target
     if operation == 'delete':
         postid = flask.request.form['postid']
+        connection = insta485.model.get_db() #username is a primary key. 
         sql = "SELECT owner FROM posts WHERE postid='%s'" % (postid)
         cur = connection.execute(sql)
         post_owner = cur.fetchone()
