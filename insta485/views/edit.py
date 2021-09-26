@@ -4,6 +4,7 @@ import pdb
 import uuid
 import pathlib
 import hashlib
+
 algorithm = 'sha512'
 salt = 'a45ffdcc71884853a2cba9e6bc55e812' # salt used from the spec **for easy testing.**
 #render edit page:
