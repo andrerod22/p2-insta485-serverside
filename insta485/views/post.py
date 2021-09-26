@@ -6,7 +6,7 @@ import arrow
 def show_post(postid_url_slug):
     if 'username' not in flask.session:
         return flask.redirect(url_for('show_login'))
-    currUser = flask.session['username']
+    curr_user = flask.session['username']
     connection = insta485.model.get_db() #username is a primary key. 
     sql = "SELECT postid, filename, owner, created FROM posts WHERE postid='%s'" % postid_url_slug
     cur = connection.execute(sql)
@@ -31,7 +31,7 @@ def show_post(postid_url_slug):
                 commentTuple.append(c)
         for l in likeData:
             if p["postid"] == l["postid"]:
-                if(currUser == l["owner"]):
+                if(curr_user == l["owner"]):
                     liked = True
                 likes += 1
         for u in userPhotos:
@@ -44,3 +44,21 @@ def show_post(postid_url_slug):
         p["liked"] = liked
     context = {"posts": postData}
     return flask.render_template("post.html", **context)
+
+@insta485.app.route('/posts/<postid_url_slug>/', methods=['GET', 'DELETE'])
+def delete_post():
+    operation = flask.request.form['operation']
+    curr_user = flask.session['username'] #owner
+    target = flask.request.args.get('target')
+    URL = target
+    if operation == 'delete':
+        postid = flask.request.form['postid']
+        sql = "SELECT owner FROM posts WHERE postid='%s'" % (postid)
+        cur = connection.execute(sql)
+        post_owner = cur.fetchone()
+        post_owner = post_owner['owner']
+        if curr_user != post_owner:
+            flask.abort(403,"Can't delete other user's post")
+        sql = "DELETE FROM posts WHERE postid='%s' AND owner='%s'" % (postid, curr_user)
+        cur = connection.execute(sql)
+    return flask.redirect(URL)

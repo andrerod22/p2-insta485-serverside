@@ -63,7 +63,8 @@
       <div>
         {% if post.owner == session.username %}
           <!-- DELETE POST -->
-          <form action="<FIXME_POSTS_URL_HERE>?target=<FIXME_LOGGED_IN_USER_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+          <!--<FIXME_POSTS_URL_HERE>?target=<FIXME_LOGGED_IN_USER_PAGE_URL_HERE>-->
+          <form action="url_for('delete_post', target=url_for('show_user', user_slug=session.username))" method="post" enctype="multipart/form-data">
             <input type="hidden" name="operation" value="delete"/>
             <input type="hidden" name="postid" value="{{ post['postid'] }}"/>
             <input type="submit" name="delete" value="delete this post"/>
