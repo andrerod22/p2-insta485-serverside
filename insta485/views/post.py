@@ -52,9 +52,8 @@ def delete_post(postid_url_slug):
     curr_user = flask.session['username'] #owner
     target = flask.request.args.get('target')
     URL = '/users/' + curr_user + '/'
-    breakpoint()
     if operation == 'delete':
-        postid = flask.request.form['postid']
+        postid = postid_url_slug
         connection = insta485.model.get_db() #username is a primary key. 
         sql = "SELECT owner FROM posts WHERE postid='%s'" % (postid)
         cur = connection.execute(sql)
@@ -62,6 +61,11 @@ def delete_post(postid_url_slug):
         post_owner = post_owner['owner']
         if curr_user != post_owner:
             flask.abort(403,"Can't delete other user's post")
+        breakpoint()
+        cur = connection.execute("SELECT filename FROM posts WHERE postid='%s' AND owner = '%s'" % (postid, curr_user))
+        target_post = cur.fetchall()
+        filePath = insta485.app.config['UPLOAD_FOLDER']/target_post[0]['filename']
+        filePath.unlink()
         sql = "DELETE FROM posts WHERE postid='%s' AND owner='%s'" % (postid, curr_user)
         cur = connection.execute(sql)
     return flask.redirect(URL)
