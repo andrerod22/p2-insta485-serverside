@@ -110,7 +110,6 @@ def test_upload(client):
     assert response.status_code == 302
     urlpath = urlparse(response.location).path
     assert urlpath == "/users/awdeorio/"
-
     # Load and parse user page
     response = client.get("/users/awdeorio/")
     assert response.status_code == 200

@@ -14,7 +14,7 @@
             </a>
         </div>
         <div class="postImg">
-          <img src="{{ url_for('serve_img', filename=post.filename ) }}" alt=Crossword.jpg>
+          <img src="{{ url_for('serve_img', filename=post.filename ) }}" alt=postImage.jpg style="width:500px;">
       </div>
       <div class="profileBottomBar"> 
           {% if post['likes'] == 1 %}
