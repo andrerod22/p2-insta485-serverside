@@ -42,10 +42,10 @@ def show_following(user_url_slug):
 
 @insta485.app.route('/users/<user_url_slug>/followers/', methods=["GET"])
 def show_followers(user_url_slug):
-    currUser = flask.session['username']
     connection = insta485.model.get_db()
     #get list of followers
-    sql = "SELECT filename, username FROM users WHERE username in (SELECT username1 FROM following WHERE username2 = '%s')" % currUser
+    currUser = flask.session['username']
+    sql = "SELECT filename, username FROM users WHERE username in (SELECT username1 FROM following WHERE username2 = '%s')" % user_url_slug
     cur = connection.execute(sql)
     followers = cur.fetchall()
     #Get list of following of users the person is following
@@ -58,6 +58,7 @@ def show_followers(user_url_slug):
             follower['following_back'] = False
         else:
             follower['following_back'] = True
+        follower['user_slug'] = user_url_slug
     context = {"followers": followers}
     # breakpoint()
     return flask.render_template("followers.html", **context)
