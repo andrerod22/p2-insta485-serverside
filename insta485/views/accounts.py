@@ -92,11 +92,13 @@ def account_redirect():
         cur = connection.execute("SELECT filename FROM users WHERE username = '%s'" % delete_user)
         iconfile = cur.fetchone()['filename']
         iconfilePath = insta485.app.config['UPLOAD_FOLDER']/iconfile
-        # iconfilePath.path
-
-        #find post filenames  associated with the user. 
-        connection = insta485.model.get_db()
-        # cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
+        iconfilePath.unlink()
+        cur = connection.execute("SELECT filename FROM posts WHERE owner = '%s'" % delete_user)
+        postfileList = cur.fetchall()
+        for file in postfileList:
+            filePath = insta485.app.config['UPLOAD_FOLDER']/file['filename']
+            filePath.unlink()
+        cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
         flask.session.clear()
     elif operation == 'edit_account':
         connection = insta485.model.get_db()
