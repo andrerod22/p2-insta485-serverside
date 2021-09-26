@@ -82,10 +82,11 @@ def account_redirect():
         cur = connection.execute("INSERT INTO users(username,fullname,email,filename,password,created) VALUES('%s','%s','%s','%s','%s','%s')" % params)
         flask.session['username'] = username
     elif operation == 'delete':
-        breakpoint()
+        #breakpoint()
         delete_user = flask.session['username']
         connection = insta485.model.get_db()
         cur = connection.execute("DELETE FROM users WHERE username = '%s'" % delete_user)
+        flask.session.clear() 
     return flask.redirect(URL)
     #TODO Other operations like account create, edit, etc. Refer to spec. 
 

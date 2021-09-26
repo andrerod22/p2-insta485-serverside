@@ -15,19 +15,16 @@ CREATE TABLE posts(
   filename VARCHAR(64) NOT NULL,
   owner VARCHAR(20) NOT NULL,
   created DATETIME,
-  FOREIGN KEY(owner) REFERENCES users(username)
-  ON DELETE CASCADE
+  FOREIGN KEY(owner) REFERENCES users(username) ON DELETE CASCADE
 );
 
 CREATE TABLE following(
   username1 VARCHAR(20) NOT NULL,
   username2 VARCHAR(20) NOT NULL,
   created DATETIME,
-  FOREIGN KEY(username1) REFERENCES users(username),
-  FOREIGN KEY(username2) REFERENCES users(username)
-  ON DELETE CASCADE
+  FOREIGN KEY(username1) REFERENCES users(username) ON DELETE CASCADE
+  FOREIGN KEY(username2) REFERENCES users(username) ON DELETE CASCADE
 );
-
 
 CREATE TABLE comments(
   commentid INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,9 +32,8 @@ CREATE TABLE comments(
   postid INTEGER,
   text VARCHAR(1024) NOT NULL,
   created DATETIME,
-  FOREIGN KEY(postid) REFERENCES posts(postid)
-  FOREIGN KEY(owner) REFERENCES users(username)
-  ON DELETE CASCADE
+  FOREIGN KEY(postid) REFERENCES posts(postid) ON DELETE CASCADE
+  FOREIGN KEY(owner) REFERENCES users(username) ON DELETE CASCADE
 );
 
 
@@ -46,7 +42,6 @@ CREATE TABLE likes(
   owner VARCHAR(20) NOT NULL,
   postid INTEGER,
   created DATETIME,
-  FOREIGN KEY(postid) REFERENCES posts(postid)
-  FOREIGN KEY(owner) REFERENCES users(username)
-  ON DELETE CASCADE
+  FOREIGN KEY(postid) REFERENCES posts(postid) ON DELETE CASCADE
+  FOREIGN KEY(owner) REFERENCES users(username) ON DELETE CASCADE
 );

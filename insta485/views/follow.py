@@ -37,6 +37,24 @@ def follow_redirect():
         
 @insta485.app.route('/users/<user_url_slug>/following/', methods=["GET"])
 def show_following(user_url_slug):
+    connection = insta485.model.get_db()
+    #get list of followers
+    currUser = flask.session['username']
+    sql = "SELECT filename, username FROM users WHERE username in (SELECT username1 FROM following WHERE username2 = '%s')" % user_url_slug
+    cur = connection.execute(sql)
+    followers = cur.fetchall()
+    #Get list of following of users the person is following
+    sql = "SELECT username2 FROM following WHERE username1 = '%s'" % currUser
+    cur = connection.execute(sql)
+    followList = cur.fetchall()
+    followList = [follow['username2'] for follow in followList]
+    for follower in followers:
+        if follower['username'] not in followList:
+            follower['following_back'] = False
+        else:
+            follower['following_back'] = True
+        follower['user_slug'] = user_url_slug
+    context = {"followers": followers}
     #TODO if followers is successful
     return flask.render_template("following.html", **context)
 
