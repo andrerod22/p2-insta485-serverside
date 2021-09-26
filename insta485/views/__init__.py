@@ -14,4 +14,3 @@ from insta485.views.post import show_post
 from insta485.views.users import show_user
 from insta485.views.users import upload_post
 from insta485.views.edit import show_edit
-from insta485.views.post import delete_post
