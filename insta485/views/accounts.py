@@ -55,10 +55,6 @@ def account_redirect():
     elif operation == 'create':
         fileobj = flask.request.files["file"]
         filename = fileobj.filename
-        # Compute base name (filename without directory).
-        # We use a UUID to avoid
-        # clashes with existing files,
-        # and ensure that the name is compatible with the filesystem.
         uuid_basename = "{stem}{suffix}".format(
             stem=uuid.uuid4().hex,
             suffix=pathlib.Path(filename).suffix
@@ -70,7 +66,6 @@ def account_redirect():
         time_stamp = datetime.datetime.utcnow()
         password_salted = SALT + password
         hash_obj = hashlib.new(ALGORITHM)
-        # turns salted password into bits
         hash_obj.update(password_salted.encode('utf-8'))
         password_hash = hash_obj.hexdigest()
         password_db_string = "$".join([ALGORITHM, SALT, password_hash])
