@@ -8,6 +8,7 @@ import flask
 import insta485
 import datetime
 
+
 @insta485.app.route("/likes/", methods=["POST"])
 def update_likes():
     """Update likes in DB."""
