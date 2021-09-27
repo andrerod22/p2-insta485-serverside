@@ -1,5 +1,8 @@
 """
-Insta485 logout
+Insta485 like (main) view.
+
+URLs include:
+
 """
 import flask
 from werkzeug.utils import redirect
@@ -9,6 +12,7 @@ import datetime
 
 @insta485.app.route('/following/', methods=["POST"])
 def follow_redirect():
+    """Redirect follow traffic."""
     if 'username' not in flask.session:
         return flask.redirect("show_login")
     currUser = flask.session['username']
@@ -42,6 +46,7 @@ def follow_redirect():
 
 @insta485.app.route('/users/<user_url_slug>/following/', methods=["GET"])
 def show_following(user_url_slug):
+    """Render the following template."""
     if 'username' not in flask.session:
         return redirect('show_login')
     connection = insta485.model.get_db()
@@ -73,6 +78,7 @@ def show_following(user_url_slug):
 # DO NOT TOUCH
 @insta485.app.route('/users/<user_url_slug>/followers/', methods=["GET"])
 def show_followers(user_url_slug):
+    """Render the followers template."""
     if 'username' not in flask.session:
         return redirect('show_login')
     connection = insta485.model.get_db()

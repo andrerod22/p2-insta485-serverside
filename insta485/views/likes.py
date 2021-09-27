@@ -1,16 +1,16 @@
 """
-Insta485 index (main) view.
+Insta485 like (main) view.
 
 URLs include:
-/
+
 """
 import flask
 import insta485
 import datetime
 
-
 @insta485.app.route("/likes/", methods=["POST"])
 def update_likes():
+    """Update likes in DB."""
     # setup==========================================
     target = flask.request.args.get('target')
     operation = flask.request.form['operation']

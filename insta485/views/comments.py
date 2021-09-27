@@ -1,5 +1,8 @@
 """
-Insta485 comments (main) view.
+Insta485 comment (main) view.
+
+URLs include:
+N/a
 """
 import flask
 from flask import request
@@ -9,6 +12,7 @@ import datetime
 
 @insta485.app.route('/comments/', methods=['POST', 'DELETE'])
 def update_user_comment():
+    """Increment Comment Table with New Like."""
     operation = flask.request.form['operation']
     currUser = flask.session['username']
     target = flask.request.args.get('target')

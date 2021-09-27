@@ -1,3 +1,9 @@
+"""
+Insta485 like (main) view.
+
+URLs include:
+
+"""
 import flask
 import insta485
 import pathlib
@@ -7,6 +13,7 @@ import datetime
 
 @insta485.app.route('/users/<user_slug>/', methods=["GET"])
 def show_user(user_slug):
+    """Render the show template."""
     if 'username' not in flask.session:
         return flask.redirect('show_login')
     currUser = flask.session['username']

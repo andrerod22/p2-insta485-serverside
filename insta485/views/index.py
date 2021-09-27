@@ -84,6 +84,7 @@ def show_index():
 
 @insta485.app.route('/uploads/<path:filename>', methods=["GET"])
 def serve_img(filename):
+    """Dynamically Serve Images."""
     if 'username' not in flask.session:
         return flask.abort(403)
     return flask.send_from_directory(

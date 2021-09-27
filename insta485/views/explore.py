@@ -1,9 +1,16 @@
+"""
+Insta485 index (main) view.
+
+URLs include:
+/
+"""
 import flask
 import insta485
 
 
 @insta485.app.route('/explore/', methods=["GET"])
 def show_explore():
+    """Render the explore template."""
     currUser = flask.session['username']
     connection = insta485.model.get_db()  # username is a primary key.
     sql = """SELECT username, filename FROM users
