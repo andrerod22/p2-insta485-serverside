@@ -26,6 +26,7 @@ SALT = 'a45ffdcc71884853a2cba9e6bc55e812'
 
 
 def login_helper():
+    """Help with logging in a user."""
     username = flask.request.form['username']
     password = flask.request.form['password']
     if not username or not password:

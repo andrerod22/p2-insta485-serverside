@@ -28,6 +28,8 @@ def update_user_comment():
     if operation == 'create':
         postid = flask.request.form['postid']
         text = flask.request.form['text']
+        if text is None:
+            flask.abort(400)
         time_stamp = datetime.datetime.utcnow()
         time_stamp = time_stamp.strftime('%Y-%m-%d %H:%M:%S')
         sql = """INSERT INTO comments
