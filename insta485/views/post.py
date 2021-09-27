@@ -1,3 +1,4 @@
+"""File for all post related functionaliity."""
 from insta485.views.users import show_user
 import flask
 from flask.helpers import url_for
@@ -10,6 +11,7 @@ import datetime
 
 @insta485.app.route("/posts/<postid_url_slug>/", methods=["GET"])
 def show_post(postid_url_slug):
+    """Render Post Template."""
     if 'username' not in flask.session:
         return flask.redirect(url_for('show_login'))
     curr_user = flask.session['username']
@@ -63,6 +65,7 @@ def show_post(postid_url_slug):
 
 @insta485.app.route('/posts/', methods=["POST"])
 def post_redirect():
+    """Redirects all post traffic."""
     operation = flask.request.form['operation']
     curr_user = flask.session['username']
     URL = flask.request.args.get('target')
