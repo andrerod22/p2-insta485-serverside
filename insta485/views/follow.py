@@ -10,6 +10,15 @@ from werkzeug.utils import redirect
 import insta485
 
 
+def blockuser(user_slug):
+    """Block unauthorized user."""
+    connection = insta485.model.get_db()
+    cursor = connection.execute("""SELECT username FROM
+     users WHERE username = '%s'""" % user_slug)
+    if cursor.fetchall() is None:
+        flask.abort(404)
+
+
 @insta485.app.route('/following/', methods=["POST"])
 def follow_redirect():
     """Redirect follow traffic."""
@@ -47,6 +56,7 @@ def follow_redirect():
 @insta485.app.route('/users/<user_url_slug>/following/', methods=["GET"])
 def show_following(user_url_slug):
     """Render the following template."""
+    blockuser(user_url_slug)
     if 'username' not in flask.session:
         return redirect('show_login')
     connection = insta485.model.get_db()
@@ -79,6 +89,7 @@ def show_following(user_url_slug):
 @insta485.app.route('/users/<user_url_slug>/followers/', methods=["GET"])
 def show_followers(user_url_slug):
     """Render the followers template."""
+    blockuser(user_url_slug)
     if 'username' not in flask.session:
         return redirect('show_login')
     connection = insta485.model.get_db()

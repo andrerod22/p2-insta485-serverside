@@ -229,7 +229,7 @@ def test_accounts_delete(client):
         },
     )
     assert response.status_code == 302
-
+    
     # Delete account
     response = client.post(
         "/accounts/?{}".format(urlencode({"target": "/accounts/create/"})),
