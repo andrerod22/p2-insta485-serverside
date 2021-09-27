@@ -111,6 +111,8 @@ def post_redirect():
     elif operation == 'create':
         url_var = url_for('show_user', user_slug=curr_user)
         fileobj = flask.request.files["file"]
+        if fileobj is None:
+            flask.abort(400)
         # filename = fileobj.filename
         uuid_basename = "{stem}{suffix}".format(
             stem=uuid.uuid4().hex,

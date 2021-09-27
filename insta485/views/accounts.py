@@ -119,6 +119,8 @@ def account_redirect():
             "DELETE FROM users WHERE username = '%s'" % delete_user)
         flask.session.clear()
     elif operation == 'edit_account':
+        if 'username' not in flask.session:
+            flask.abort(403)
         connection = insta485.model.get_db()
         curr_user = flask.session['username']
         fileobj = flask.request.files["file"]
@@ -142,6 +144,8 @@ def account_redirect():
                SET fullname='%s', email='%s', filename ='%s'
                WHERE username='%s'""" % params)
     elif operation == 'update_password':
+        if 'username' not in flask.session:
+            flask.abort(403)
         connection = insta485.model.get_db()
         username = flask.session['username']
         password = flask.request.form['password']
