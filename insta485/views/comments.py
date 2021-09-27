@@ -10,7 +10,7 @@ import insta485
 import datetime
 
 
-@insta485.app.route('/comments/', methods=['POST', 'DELETE'])
+@insta485.app.route('/comments/', methods=['POST'])
 def update_user_comment():
     """Increment Comment Table with New Like."""
     operation = flask.request.form['operation']
