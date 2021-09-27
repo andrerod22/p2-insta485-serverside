@@ -4,13 +4,13 @@ Insta485 like (main) view.
 URLs include:
 
 """
+# import pdb
 import flask
 import insta485
-import pdb
-import uuid
-import pathlib
-import hashlib
-from urllib.parse import urlparse
+# import uuid
+# import pathlib
+# import hashlib
+# from urllib.parse import urlparse
 
 
 # render edit page:
@@ -18,8 +18,8 @@ from urllib.parse import urlparse
 def show_edit():
     """Render the edit template."""
     connection = insta485.model.get_db()
-    currUser = flask.session['username']
-    sql = "SELECT * FROM users WHERE username='%s'" % (currUser)
+    curr_user = flask.session['username']
+    sql = "SELECT * FROM users WHERE username='%s'" % (curr_user)
     cur = connection.execute(sql)
     edit = cur.fetchall()
     context = {"edit": edit}
@@ -29,6 +29,6 @@ def show_edit():
 @insta485.app.route('/accounts/password/', methods=['GET'])
 def show_edit_password():
     """Render the edit password template."""
-    username = flask.session['username']
-    context = {"edit": username}
+    # username = flask.session['username']
+    # context = {"edit": username}
     return flask.render_template("editPassword.html")
