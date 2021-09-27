@@ -107,6 +107,8 @@ def post_redirect():
         cur = connection.execute(sql)
     elif operation == 'create':
         fileobj = flask.request.files["file"]
+        if fileobj is None:
+            flask.abort(400)
         # filename = fileobj.filename
         uuid_basename = "{stem}{suffix}".format(
             stem=uuid.uuid4().hex,

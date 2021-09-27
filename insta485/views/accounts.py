@@ -24,6 +24,30 @@ ALGORITHM = 'sha512'
 SALT = 'a45ffdcc71884853a2cba9e6bc55e812'
 
 
+def login_helper():
+    """Help with logging in a user."""
+    username = flask.request.form['username']
+    password = flask.request.form['password']
+    if not username or not password:
+        flask.abort(400, "Username or Password field was empty")
+    password_salted = SALT + password
+    hash_obj = hashlib.new(ALGORITHM)
+    hash_obj.update(password_salted.encode('utf-8'))
+    password_hash = hash_obj.hexdigest()
+    password_db_string = "$".join([ALGORITHM, SALT, password_hash])
+    connection = insta485.model.get_db()
+    params = (username, password_db_string)
+    print(password_db_string)
+    cur = connection.execute(
+            "SELECT * FROM users WHERE username = '%s' AND password = '%s'"
+            % params)
+    user = cur.fetchone()
+    if user is None:
+        flask.abort(403, "Invalid Username and Password Combination")
+    flask.session['username'] = username
+    return flask.redirect('/')
+
+
 @insta485.app.route('/accounts/', methods=["POST"])
 def account_redirect():
     """Master Function For Redirects."""
