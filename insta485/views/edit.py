@@ -7,7 +7,7 @@ import hashlib
 from urllib.parse import urlparse
 
 
-#render edit page:
+# render edit page:
 @insta485.app.route('/accounts/edit/', methods=["GET"])
 def show_edit():
     connection = insta485.model.get_db()
@@ -16,8 +16,8 @@ def show_edit():
     cur = connection.execute(sql)
     edit = cur.fetchall()
     context = {"edit": edit}
-    #breakpoint()
     return flask.render_template("edit.html", **context)
+
 
 @insta485.app.route('/accounts/password/', methods=['GET'])
 def show_edit_password():

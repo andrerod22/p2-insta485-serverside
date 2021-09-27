@@ -20,9 +20,9 @@ import datetime
 import pdb
 from pathlib import Path
 
-algorithm = 'sha512'
+ALGORITHM = 'sha512'
 # salt used from the spec **for easy testing.**
-salt = 'a45ffdcc71884853a2cba9e6bc55e812'
+SALT = 'a45ffdcc71884853a2cba9e6bc55e812'
 
 
 @insta485.app.route('/accounts/', methods=["POST"])
@@ -36,11 +36,11 @@ def account_redirect():
         password = flask.request.form['password']
         if not username or not password:
             flask.abort(400, "Username or Password field was empty")
-        password_salted = salt + password
-        hash_obj = hashlib.new(algorithm)
+        password_salted = SALT + password
+        hash_obj = hashlib.new(ALGORITHM)
         hash_obj.update(password_salted.encode('utf-8'))
         password_hash = hash_obj.hexdigest()
-        password_db_string = "$".join([algorithm, salt, password_hash])
+        password_db_string = "$".join([ALGORITHM, SALT, password_hash])
         connection = insta485.model.get_db()
         params = (username, password_db_string)
         print(password_db_string)
@@ -68,12 +68,12 @@ def account_redirect():
         email = flask.request.form['email']
         password = flask.request.form['password']
         time_stamp = datetime.datetime.utcnow()
-        password_salted = salt + password
-        hash_obj = hashlib.new(algorithm)
+        password_salted = SALT + password
+        hash_obj = hashlib.new(ALGORITHM)
         # turns salted password into bits
         hash_obj.update(password_salted.encode('utf-8'))
         password_hash = hash_obj.hexdigest()
-        password_db_string = "$".join([algorithm, salt, password_hash])
+        password_db_string = "$".join([ALGORITHM, SALT, password_hash])
         if not (
                 username and password and fullname and
                 email and uuid_basename):
@@ -95,7 +95,9 @@ def account_redirect():
         if user is not None:
             flask.abort(409, "Username already taken")
         cur = connection.execute(
-            "INSERT INTO users(username,fullname,email,filename,password,created) VALUES('%s','%s','%s','%s','%s','%s')" % params)
+            """INSERT INTO
+                users(username,fullname,email,filename,password,created)
+                VALUES('%s','%s','%s','%s','%s','%s')""" % params)
         flask.session['username'] = username
     elif operation == 'delete':
         delete_user = flask.session['username']
