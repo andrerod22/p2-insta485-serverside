@@ -4,9 +4,9 @@
 <h1>Discover People</h1>
 <div>
     {% for explore in not_following %}
-        <img src="{{ url_for('serve_img', filename=explore.filename ) }}" style="width: 50px;">
-        <a href="{{ url_for('show_user', user_slug=explore.username)}}">
-            {{explore['username']}}
+        <img src="{{ url_for('serve_img', filename=explore.filename ) }}" style="width: 50px;" alt=not_following_pfp>
+        <a href="{{ url_for('show_user', user_slug=explore.username) }}">
+            {{ explore['username'] }}
         </a>
         <!--Follow Button-->
         <form action="{{ url_for('follow_redirect', target='/explore/') }}" method="post" enctype="multipart/form-data">

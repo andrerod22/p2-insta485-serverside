@@ -12,25 +12,25 @@
             <img src="{{ url_for('serve_img', filename=following_var.filename) }}" alt="user_icon" style='width: 50px;'>
             <!--username + link-->
             <a href="{{ url_for('show_user', user_slug=following_var['username']) }}">
-                {{following_var['username']}}
+                {{ following_var['username'] }}
             </a>
             <!--status following/followed-->
-                {% if following_var.following_back %} following
-                    <!--Unfollow Button-->
-                    <form action="{{ url_for('follow_redirect', target=url_for('show_following', user_url_slug=following_var.user_slug)) }}" method="post" enctype="multipart/form-data">
-                        <input type="submit" name="unfollow" value="unfollow"/>
-                        <input type="hidden" name="username" value="{{following_var['username']}}"/>
-                        <input type="hidden" name="operation" value="unfollow"/>
-                    </form>
-                {% else %} not following
-                    <!--Follow Button-->
-                    <form action="{{ url_for('follow_redirect', target=url_for('show_following', user_url_slug=following_var.user_slug)) }}" method="post" enctype="multipart/form-data">
-                        <input type="submit" name="follow" value="follow"/>
-                        <input type="hidden" name="username" value="{{following_var['username']}}"/>
-                        <input type="hidden" name="operation" value="follow"/>
-                    </form>
-                {% endif %}
+            {% if following_var.following_back %} following
+            <!--Unfollow Button-->
+            <form action="{{ url_for('follow_redirect', target=url_for('show_following', user_url_slug=following_var.user_slug)) }}" method="post" enctype="multipart/form-data">
+                <input type="submit" name="unfollow" value="unfollow"/>
+                <input type="hidden" name="username" value="{{following_var['username']}}"/>
+                <input type="hidden" name="operation" value="unfollow"/>
+            </form>
+            {% else %} not following
+            <!--Follow Button-->
+            <form action="{{ url_for('follow_redirect', target=url_for('show_following', user_url_slug=following_var.user_slug)) }}" method="post" enctype="multipart/form-data">
+                <input type="submit" name="follow" value="follow"/>
+                <input type="hidden" name="username" value="{{following_var['username']}}"/>
+                <input type="hidden" name="operation" value="follow"/>
+            </form>
+            {% endif %}
+        </div>
     {% endif %}
-    </div>
 {% endfor %}
 {% endblock %}

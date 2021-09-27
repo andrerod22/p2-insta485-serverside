@@ -66,6 +66,9 @@ def post_redirect():
         filePath.unlink()
         sql = "DELETE FROM posts WHERE postid='%s' AND owner='%s'" % (postid, curr_user)
         cur = connection.execute(sql)
+        return flask.redirect(url_for('show_user', user_slug = curr_user))
+
     elif operation == 'create':
         pass
+
     return flask.redirect(URL)
