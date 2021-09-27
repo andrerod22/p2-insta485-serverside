@@ -12,9 +12,7 @@ from flask.helpers import url_for
 def show_post_helper(
                     post_data, comment_data,
                     like_data, curr_user, user_photos):
-    """
-        helper function for showing posts (looping)
-    """
+    """Show posts helper (looping)."""
     for post in post_data:
         comment_tuple = []
         likes = 0
