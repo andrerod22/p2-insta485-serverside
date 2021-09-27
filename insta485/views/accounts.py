@@ -9,16 +9,16 @@ URLs include:
 /password/
 / immediate redirection to where the user originally wanted to go.
 """
-import flask
-from flask.helpers import url_for
-from werkzeug.utils import redirect
-import insta485
 import uuid
 import hashlib
 import pathlib
 import datetime
-import pdb
+import flask
 from pathlib import Path
+from flask.helpers import url_for
+# from werkzeug.utils import redirect
+import insta485
+# import pdb
 
 ALGORITHM = 'sha512'
 # salt used from the spec **for easy testing.**
@@ -107,8 +107,8 @@ def account_redirect():
             "SELECT filename FROM users WHERE username = '%s'" %
             delete_user)
         iconfile = cur.fetchone()['filename']
-        iconfilePath = insta485.app.config['UPLOAD_FOLDER']/iconfile
-        iconfilePath.unlink()
+        iconfile_path = insta485.app.config['UPLOAD_FOLDER']/iconfile
+        iconfile_path.unlink()
         cur = connection.execute(
             "SELECT filename FROM posts WHERE owner = '%s'" % delete_user)
         postfileList = cur.fetchall()
@@ -197,8 +197,8 @@ def show_create():
 @insta485.app.route('/accounts/delete/', methods=['GET'])
 def show_delete():
     """Render delete template."""
-    username = flask.session['username']
-    context = {"delete": username}
+    # username = flask.session['username']
+    # context = {"delete": username}
     return flask.render_template("delete.html")
 
 
