@@ -1,29 +1,29 @@
 """
-Insta485 comment (main) view.
+Comment (main) view.
 
 URLs include:
-N/a
+/
+/posts/post_url_slug
 """
-import flask
-from flask import request
-import insta485
 import datetime
+import flask
+import insta485
 
 
 @insta485.app.route('/comments/', methods=['POST'])
 def update_user_comment():
     """Increment Comment Table with New Like."""
     operation = flask.request.form['operation']
-    currUser = flask.session['username']
+    curr_user = flask.session['username']
     target = flask.request.args.get('target')
     if target is None:
-        URL = '/'
+        url = '/'
     elif '/posts/' in target:
-        URL = target
+        url = target
     elif '/posts/' not in target:
-        URL = '/posts/' + str(target) + '/'
+        url = '/posts/' + str(target) + '/'
     else:
-        URL = '/'
+        url = '/'
     connection = insta485.model.get_db()
     if operation == 'create':
         postid = flask.request.form['postid']
@@ -32,22 +32,22 @@ def update_user_comment():
         time_stamp = time_stamp.strftime('%Y-%m-%d %H:%M:%S')
         sql = """INSERT INTO comments
          (owner, postid, text, created) VALUES ('%s', '%s', '%s', '%s')
-         """ % (currUser, postid, text, time_stamp)
+         """ % (curr_user, postid, text, time_stamp)
         cur = connection.execute(sql)
 
     elif operation == 'delete':
         commentid = flask.request.form['commentid']
         sql = "SELECT owner FROM comments WHERE commentid='%s'" % (commentid)
         cur = connection.execute(sql)
-        commentOwner = cur.fetchone()
-        commentOwner = commentOwner['owner']
+        comment_owner = cur.fetchone()
+        comment_owner = comment_owner['owner']
 
-        if currUser != commentOwner:
+        if curr_user != comment_owner:
             flask.abort(403, "Can't delete other user's comment")
         sql = """DELETE FROM comments WHERE commentid='%s'
-         AND owner='%s'""" % (commentid, currUser)
+         AND owner='%s'""" % (commentid, curr_user)
         cur = connection.execute(sql)
 
     if target == '/':
         return flask.redirect('/')
-    return flask.redirect(URL)
+    return flask.redirect(url)
