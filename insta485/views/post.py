@@ -1,12 +1,11 @@
 """File for all post related functionaliity."""
-import insta485
-import arrow
 import uuid
-import pathlib
 import datetime
+import pathlib
+import arrow
 import flask
-# from insta485.views.users import show_user
 from flask.helpers import url_for
+import insta485
 
 
 def show_post_helper(
@@ -88,7 +87,6 @@ def post_redirect():
     """Redirects all post traffic."""
     operation = flask.request.form['operation']
     curr_user = flask.session['username']
-    url_var = flask.request.args.get('target')
     if operation == 'delete':
         postid = flask.request.form['postid']
         connection = insta485.model.get_db()
@@ -107,9 +105,7 @@ def post_redirect():
         sql = """DELETE FROM posts WHERE postid='%s' AND
              owner='%s'""" % (postid, curr_user)
         cur = connection.execute(sql)
-        return flask.redirect(url_for('show_user', user_slug=curr_user))
     elif operation == 'create':
-        url_var = url_for('show_user', user_slug=curr_user)
         fileobj = flask.request.files["file"]
         # filename = fileobj.filename
         uuid_basename = "{stem}{suffix}".format(
@@ -124,4 +120,5 @@ def post_redirect():
         # params = (uuid_basename, curr_user, time_stamp)
         cur = connection.execute("""INSERT INTO posts(filename,owner,created)
          VALUES('%s','%s','%s')""" % (uuid_basename, curr_user, time_stamp))
-    return flask.redirect(url_var)
+    # return flask.redirect(url_var)
+    return flask.redirect(url_for('show_user', user_slug=curr_user))
